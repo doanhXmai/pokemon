@@ -82,8 +82,8 @@ class Game:
         elif setting.LEVEL_OF_SCREEN == 4:
             self.menu_pause.draw() # Vẽ menu pause
         elif setting.LEVEL_OF_SCREEN == 5:
+            self.board = Board(self.screen)
             self.menu_win.draw() # Vẽ menu win
-            self.board = Board(self.screen)
         elif setting.LEVEL_OF_SCREEN == 6:
-            self.menu_lose.draw()
             self.board = Board(self.screen)
+            self.menu_lose.draw()

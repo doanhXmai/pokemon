@@ -47,7 +47,6 @@ class MenuWin(Screen):
                 setting.LEVEL += 1  # Chuyển sang level tiếp theo
                 setting.SCORE = 10 * setting.LEVEL
                 setting.LEVEL_OF_SCREEN = 2  # Quay lại màn chơi
-                setting.WIN = False
                 Board.start_time = pygame.time.get_ticks()
                 Board.pause_time = 0
                 Sound.sound_manager.play_sound(config.CLICK)
