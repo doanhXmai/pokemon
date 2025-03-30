@@ -3,10 +3,10 @@ from collections import deque
 
 def find_pass(tiles, pos1, pos2):
     """
-            Tìm đường nối giữa pos1 và pos2 (theo dạng (row, col)) bằng thuật toán BFS.
-            Tạo ma trận grid từ self.tiles với viền rỗng. Các ô có giá trị None được coi là trống.
-            Các ô chứa Tile được xem là chướng ngại vật, ngoại trừ 2 ô được chọn.
-            """
+        Tìm đường nối giữa pos1 và pos2 (theo dạng (row, col)) bằng thuật toán BFS.
+        Tạo ma trận grid từ self.tiles với viền rỗng. Các ô có giá trị None được coi là trống.
+        Các ô chứa Tile được xem là chướng ngại vật, ngoại trừ 2 ô được chọn.
+    """
     R = len(tiles)
     C = len(tiles[0])
     # Tạo grid, 0: ô trống, 1: có tile

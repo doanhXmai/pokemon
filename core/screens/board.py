@@ -118,6 +118,18 @@ class Board(Screen):
     def you_lose(self):
         setting.LOSE = self.remaining_time == 0
 
+    def get_pixel_position(self, row, col):
+        """Đổi từ vị trí của quân trong board sang vị trí điểm(pixel) tương ứng với trong screen"""
+        x = config.BOARD_X + (col - 1) * config.TILE_SIZE + config.TILE_SIZE // 2
+        y = config.BOARD_Y + (row - 1) * config.TILE_SIZE + config.TILE_SIZE // 2
+        return x, y
+
+    def draw_connection(self, path, color = config.RED, width = 5):
+        if not path:
+            return
+        for i in range(len(path) - 1):
+            pygame.draw.line(self.screen, color, self.get_pixel_position(*path[i]), self.get_pixel_position(*path[i+1]), width)
+
     def draw(self):
         self.screen.fill(config.ORANGE)
         for row in range(1, config.NUM_ROWS + 1):
@@ -152,6 +164,7 @@ class Board(Screen):
         if event.type == pygame.MOUSEBUTTONDOWN:
             if self.sound_rect.collidepoint(event.pos):
                 self.toggle_sound()
+
             if self.pause.rect.collidepoint(event.pos):
                 print("Bạn đã tạm dừng")
                 Sound.sound_manager.play_sound(config.CLICK)
@@ -191,7 +204,8 @@ class Board(Screen):
                             self.first_tile = (row, col)
                         else:
                             second_tile = (row, col)
-                            if can_connect(self.tiles, self.first_tile, second_tile):
+                            path = can_connect(self.tiles, self.first_tile, second_tile)
+                            if path is not None:
                                 print("Nối thành công")
                                 self.tiles[self.first_tile[0]][self.first_tile[1]] = None
                                 self.tiles[second_tile[0]][second_tile[1]] = None
@@ -200,6 +214,9 @@ class Board(Screen):
                                 self.num_tiles_lost += 2
                                 self.check_any_valid_pair()
                                 Sound.sound_manager.play_sound(config.MATCHED)
+                                self.draw_connection(path)
+                                pygame.display.update()
+                                pygame.time.delay(300)
                             else:
                                 print("Nối không thành công")
                                 self.tiles[self.first_tile[0]][self.first_tile[1]].is_selected = False
