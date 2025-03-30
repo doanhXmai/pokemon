@@ -1,4 +1,3 @@
-from collections import deque
 import random
 import pygame
 
@@ -46,6 +45,7 @@ class Board(Screen):
         self.restart_back = btnRestartAndBack()
 
         self.generate_board()
+
 
     def generate_board(self):
         # Tạo bảng với cặp Pokémon và xáo trộn sau khi hoàn tất.
@@ -153,6 +153,7 @@ class Board(Screen):
             config.SCREEN_WIDTH // 2, ((config.NUM_ROWS + 2) * config.TILE_SIZE) + 50))
         self.screen.blit(score_text, text_rect)
 
+        # Vẽ các nút chức năng khác
         self.draw_sound_button()
         self.pause.draw(self.screen)
         self.hint.draw(self.screen)
@@ -179,9 +180,11 @@ class Board(Screen):
                 print(f"({r1}, {c1}) - ({r2}, {c2})")
                 self.tiles[r1][c1].is_hinted = True
                 self.tiles[r2][c2].is_hinted = True
+
             if self.shuffle.rect.collidepoint(event.pos):
                 print("Bạn đã chọn đảo")
                 self.shuffle_board()
+
             for btn in self.restart_back.buttons:
                 if btn.btn["rect"].collidepoint(event.pos):
                     print(f"Bạn đã chọn vào {btn.btn_name}")
@@ -189,22 +192,26 @@ class Board(Screen):
                     setting.TOTAL_SCORE = 0
                     setting.LEVEL = 1
                     self.num_tiles_lost = 0
+
                     if btn.btn_name == "Back":
                         setting.LEVEL_OF_SCREEN = 1
                     elif btn.btn_name == "Restart":
                         self.generate_board()
+                        Board.start_time = pygame.time.get_ticks()
 
             for row in range(1, config.NUM_ROWS + 1):
                 for col in range(1, config.NUM_COLS + 1):
                     if self.tiles[row][col] is not None and self.tiles[row][col].rect.collidepoint(event.pos):
                         print(f"Bạn đã chọn vị trí: ({row-1}, {col-1}) với {self.tiles[row][col].image_path}")
                         self.tiles[row][col].is_selected = not self.tiles[row][col].is_selected
+
                         if not self.first_tile:
                             Sound.sound_manager.play_sound(config.CLICK)
                             self.first_tile = (row, col)
                         else:
                             second_tile = (row, col)
                             path = can_connect(self.tiles, self.first_tile, second_tile)
+
                             if path is not None:
                                 print("Nối thành công")
                                 self.tiles[self.first_tile[0]][self.first_tile[1]] = None
@@ -222,4 +229,5 @@ class Board(Screen):
                                 self.tiles[self.first_tile[0]][self.first_tile[1]].is_selected = False
                                 self.tiles[second_tile[0]][second_tile[1]].is_selected = False
                                 Sound.sound_manager.play_sound(config.NOT_SELECTED)
+
                             self.first_tile = None
