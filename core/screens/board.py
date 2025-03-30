@@ -32,6 +32,7 @@ class Board(Screen):
         self.first_tile = None
         # Bộ đếm thời gian
         self.time_limit = max(200 - (setting.LEVEL - 1) * 20, 10)
+        print(f"time được cập nhật: {self.time_limit}")
         self.remaining_time = 0
 
 
@@ -130,7 +131,7 @@ class Board(Screen):
 
         # hiển thị time
         font = pygame.font.Font(setting.FONT_PATH, 50)
-        time_text = font.render(f"Time: {self.remaining_time}s", True, config.BLACK)
+        time_text = font.render(f"Time: {self.remaining_time}s - Level: {setting.LEVEL}", True, config.BLACK)
         self.screen.blit(time_text, (10, 10))
         self.you_lose()
 

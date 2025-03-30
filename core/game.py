@@ -19,7 +19,6 @@ class Game:
         pygame.display.set_caption("Pokémon Nối hình")
         Sound.load_sound()
 
-
         # Các màn hình menu
         self.menu_start = MenuStart(self.screen)
         self.menu_level = MenuLevel(self.screen)
@@ -29,9 +28,6 @@ class Game:
 
         # Màn hình chơi chính
         self.board = None
-
-
-
         self.running = True
 
     def run(self):
@@ -76,6 +72,8 @@ class Game:
                 setting.LEVEL_OF_SCREEN = 6
                 setting.LOSE = False
             if setting.WIN:
+                setting.LEVEL += 1  # Chuyển sang level tiếp theo
+                setting.SCORE = 10 * setting.LEVEL
                 setting.LEVEL_OF_SCREEN = 5
                 Sound.sound_manager.play_sound(config.WIN)
                 setting.WIN = False

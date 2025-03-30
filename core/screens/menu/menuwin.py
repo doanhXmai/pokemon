@@ -44,8 +44,6 @@ class MenuWin(Screen):
             if self.sound_rect.collidepoint(event.pos):
                 self.toggle_sound()
             if self.btn_continue.btn["rect"].collidepoint(event.pos):
-                setting.LEVEL += 1  # Chuyển sang level tiếp theo
-                setting.SCORE = 10 * setting.LEVEL
                 setting.LEVEL_OF_SCREEN = 2  # Quay lại màn chơi
                 Board.start_time = pygame.time.get_ticks()
                 Board.pause_time = 0
