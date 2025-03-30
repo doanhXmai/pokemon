@@ -1,0 +1,52 @@
+'''
+    LEVEL_OF_SCREEN = 0 chạy menu start
+    LEVEL_OF_SCREEN = 1 chạy menu chọn cách chơi
+    LEVEL_OF_SCREEN = 2 tập luyện
+    LEVEL_OF_SCREEN = 3 chơi với máy
+    LEVEL_OF_SCREEN = 4 pause
+    LEVEL_OF_SCREEN = 5 WIN
+    LEVEL_OF_SCREEN = 6 LOSE
+
+'''
+import os.path
+from pickle import FALSE
+
+LEVEL_OF_SCREEN = 0
+
+'''
+    TURN_ON_VOLUME = True bật âm thanh
+    TURN_ON_VOLUME = False tắt âm thanh
+'''
+TURN_ON_VOLUME = True
+
+'''
+    TURN_ON_PAUSE = False vẫn chơi được
+    TURN_ON_PAUSE = True tạm dừng
+'''
+TURN_ON_PAUSE = False
+
+'''
+    LEVEL is the level of the game
+'''
+LEVEL = 1
+
+'''
+    TOTAL_SCORE
+    SCORE = 20 is default
+'''
+TOTAL_SCORE = 0
+SCORE = 10 * LEVEL
+
+'''
+    WIN:  True-you win
+    LOSE: True-you lose
+'''
+WIN = False
+LOSE = False
+
+'''
+    PAUSE: Dừng giảm time
+'''
+PAUSE = False
+
+FONT_PATH = os.path.join("assets", "fonts", "timesnewroman.ttf")
