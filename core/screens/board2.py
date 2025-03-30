@@ -1,0 +1,1 @@
+# họt động của bot

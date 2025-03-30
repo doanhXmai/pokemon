@@ -1,0 +1,1 @@
+# hàm tìm sự ưu tiên

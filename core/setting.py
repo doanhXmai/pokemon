@@ -6,7 +6,6 @@
     LEVEL_OF_SCREEN = 4 pause
     LEVEL_OF_SCREEN = 5 WIN
     LEVEL_OF_SCREEN = 6 LOSE
-
 '''
 import os.path
 from pickle import FALSE
