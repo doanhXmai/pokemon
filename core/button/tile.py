@@ -21,12 +21,8 @@ class Tile(UI):
     def draw(self, screen):
         screen.blit(self.image, self.rect)
         if self.is_selected:
-            """(200, 200, 200)"""
-            pygame.draw.rect(screen, config.BLUE, self.rect, 3)  # Vẽ viền sáng màu xám
+            pygame.draw.rect(screen, config.BLUE, self.rect, 3)  # Vẽ viền sáng màu xanh
         if self.is_hinted:
             overlay = pygame.Surface(self.rect.size, pygame.SRCALPHA)  # Tạo surface trong suốt
             overlay.fill((128, 128, 128, 100))  # Màu xám, độ trong suốt 100
             screen.blit(overlay, self.rect.topleft)  # Phủ lên tile
-
-    def handle_event(self, event):
-        pass

@@ -20,7 +20,3 @@ class UI(ABC):
     @abstractmethod
     def draw(self, screen):
         pass
-
-    @abstractmethod
-    def handle_event(self, event):
-        pass

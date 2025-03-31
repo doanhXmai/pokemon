@@ -12,7 +12,7 @@ class MenuWin(Screen):
     def __init__(self, screen):
         super().__init__(screen)
         self.font = pygame.font.Font(setting.FONT_PATH, 80)
-        self.text = self.font.render("Bạn đã WIN", True, config.BLACK)
+        self.text = self.font.render(f"Bạn đã WIN", True, config.BLACK)
         self.background = pygame.Surface((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
 
         # Toạ độ trung màn hình
@@ -47,10 +47,10 @@ class MenuWin(Screen):
                 setting.LEVEL_OF_SCREEN = 2  # Quay lại màn chơi
                 Board.start_time = pygame.time.get_ticks()
                 Board.pause_time = 0
-                Sound.sound_manager.play_sound(config.CLICK)
+                Sound.play_music(config.CLICK)
                 print(f"Tiếp tục chơi màn {setting.LEVEL}")
 
             elif self.btn_back.btn["rect"].collidepoint(event.pos):
                 setting.LEVEL_OF_SCREEN = 1  # Quay về menu chính
-                Sound.sound_manager.play_sound(config.CLICK)
+                Sound.play_music(config.CLICK)
                 print("Quay về menu chính")

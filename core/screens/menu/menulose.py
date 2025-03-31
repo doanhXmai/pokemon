@@ -51,9 +51,9 @@ class MenuLose(Screen):
                 setting.LOSE = False
                 Board.pause_time = 0
                 Board.start_time = pygame.time.get_ticks()
-                Sound.sound_manager.play_sound(config.CLICK)
+                Sound.play_music(config.CLICK)
 
             elif self.btn_back.btn["rect"].collidepoint(event.pos):
                 print("Quay về menu chính")
                 setting.LEVEL_OF_SCREEN = 1  # Quay về menu chính
-                Sound.sound_manager.play_sound(config.CLICK)
+                Sound.play_music(config.CLICK)

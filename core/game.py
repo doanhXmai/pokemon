@@ -31,6 +31,7 @@ class Game:
         self.running = True
 
     def run(self):
+        """Game loop"""
         while self.running:
             self.handle_events()
             self.draw()
@@ -58,8 +59,6 @@ class Game:
                 self.menu_lose.handle_event(event)
 
     def draw(self):
-        if not setting.TURN_ON_VOLUME:
-            Sound.stop_sound()
         if setting.LEVEL_OF_SCREEN == 0:
             self.menu_start.draw()  # Vẽ menu start
         elif setting.LEVEL_OF_SCREEN == 1:
@@ -68,14 +67,14 @@ class Game:
         elif setting.LEVEL_OF_SCREEN == 2:
             self.board.draw()
             if setting.LOSE:
-                Sound.sound_manager.play_sound(config.LOSE)
+                Sound.play_music(config.LOSE)
                 setting.LEVEL_OF_SCREEN = 6
                 setting.LOSE = False
             if setting.WIN:
                 setting.LEVEL += 1  # Chuyển sang level tiếp theo
                 setting.SCORE = 10 * setting.LEVEL
                 setting.LEVEL_OF_SCREEN = 5
-                Sound.sound_manager.play_sound(config.WIN)
+                Sound.play_music(config.WIN)
                 setting.WIN = False
         elif setting.LEVEL_OF_SCREEN == 4:
             self.menu_pause.draw() # Vẽ menu pause

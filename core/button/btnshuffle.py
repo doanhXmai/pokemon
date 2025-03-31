@@ -12,9 +12,6 @@ class btnShuffle(UI):
     def scale(self, size):
         self.image = pygame.transform.scale(self.image, size=(40, 40))
 
-    def handle_event(self, event):
-        pass
-
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 

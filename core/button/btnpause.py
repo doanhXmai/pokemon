@@ -17,7 +17,5 @@ class btnPause(UI):
         self.rect = self.image.get_rect()
         self.rect.center = position
 
-    def handle_event(self, event):
-        pass
     def scale(self, size):
         self.image = pygame.transform.scale(self.image, size=(40, 40))

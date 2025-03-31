@@ -40,7 +40,7 @@ class MenuStart(Screen):
                 self.toggle_sound()
             for btn in self.buttons:
                 if btn.btn["rect"].collidepoint(event.pos):
-                    Sound.sound_manager.play_sound(config.CLICK)
+                    Sound.play_music(config.CLICK)
                     print(f"Bạn đã bấm nút {btn.btn['text']}")
                     if btn.btn_name == "Thoát":
                         pygame.quit()

@@ -34,4 +34,4 @@ class MenuPause(Screen):
                 setting.PAUSE = False
                 Board.start_time += pygame.time.get_ticks() - Board.pause_time
                 setting.LEVEL_OF_SCREEN = 2
-                Sound.sound_manager.play_sound(config.CLICK)
+                Sound.play_music(config.CLICK)

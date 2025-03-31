@@ -1,4 +1,3 @@
-import random
 import pygame
 
 from core import setting, config
@@ -6,11 +5,12 @@ from core.button.btnpause import btnPause
 from core.button.btnhint import btnHint
 from core.button.btnrestartandback import btnRestartAndBack
 from core.button.btnshuffle import btnShuffle
-from core.processor import get_hint, can_connect
+from core.processor import Hint
+from core.processor.connect import ConnectProcessing
+from core.processor.generate import Gennergate
+from core.screens.background import Background
 from core.screens.screen import Screen
 from core.sound.sound import Sound
-from core.button.tile import Tile
-
 
 class Board(Screen):
 
@@ -44,35 +44,8 @@ class Board(Screen):
 
         self.restart_back = btnRestartAndBack()
 
-        self.generate_board()
-
-
-    def generate_board(self):
-        # Tạo bảng với cặp Pokémon và xáo trộn sau khi hoàn tất.
-        num_tiles = self.total_tiles - self.num_tiles_lost  # Tổng số ô trên bảng
-
-        if num_tiles % 2 != 0:
-            raise ValueError("Số ô trên bảng phải là số chẵn!")
-
-        num_pairs = num_tiles // 2
-
-        # Lặp lại danh sách nếu chưa đủ số cặp cần thiết
-        while len(self.pokemon_images) < num_pairs:
-            self.pokemon_images *= 2
-
-        selected_pokemons = random.sample(self.pokemon_images, num_pairs)
-        tile_pairs = selected_pokemons * 2
-
-        random.shuffle(tile_pairs)
-
-        index = 0
-        # Ghi chú: các ô trên board được lưu từ index 1 đến NUM_ROWS/NUM_COLS, viền ngoài giữ giá trị None
-        for row in range(1, config.NUM_ROWS + 1):
-            for col in range(1, config.NUM_COLS + 1):
-                x = config.BOARD_X + (col - 1) * config.TILE_SIZE
-                y = config.BOARD_Y + (row - 1) * config.TILE_SIZE
-                self.tiles[row][col] = Tile(tile_pairs[index], (x, y), (config.TILE_SIZE, config.TILE_SIZE))
-                index += 1
+        # self.generate_board()
+        Gennergate.gennerage_board(self.pokemon_images, self.tiles, self.total_tiles)
 
     def is_board_empty(self):
         """Confirm that the board tiles are None"""
@@ -83,55 +56,17 @@ class Board(Screen):
         return True
 
     def check_any_valid_pair(self):
-        if get_hint(self.tiles) is not None:
+        if Hint.get_hint(self.tiles) is not None:
             return
-        self.shuffle_board()
-
-    def shuffle_board(self):
-        # Tạo bảng với cặp Pokémon và xáo trộn sau khi hoàn tất.
-        num_tiles = self.total_tiles - self.num_tiles_lost  # Tổng số ô trên bảng
-
-        if num_tiles % 2 != 0:
-            raise ValueError("Số ô trên bảng phải là số chẵn!")
-
-        num_pairs = num_tiles // 2
-
-        # Lặp lại danh sách nếu chưa đủ số cặp cần thiết
-        while len(self.pokemon_images) < num_pairs:
-            self.pokemon_images *= 2
-
-        selected_pokemons = random.sample(self.pokemon_images, num_pairs)
-        tile_pairs = selected_pokemons * 2
-
-        random.shuffle(tile_pairs)
-
-        index = 0
-        # Ghi chú: các ô trên board được lưu từ index 1 đến NUM_ROWS/NUM_COLS, viền ngoài giữ giá trị None
-        for row in range(1, config.NUM_ROWS + 1):
-            for col in range(1, config.NUM_COLS + 1):
-                if self.tiles[row][col] is not None:
-                    x = config.BOARD_X + (col - 1) * config.TILE_SIZE
-                    y = config.BOARD_Y + (row - 1) * config.TILE_SIZE
-                    self.tiles[row][col] = Tile(tile_pairs[index], (x, y), (config.TILE_SIZE, config.TILE_SIZE))
-                    index += 1
+        Gennergate.gennerage_board(self.pokemon_images, self.tiles, self.total_tiles, self.num_tiles_lost)
 
     def you_lose(self):
         setting.LOSE = self.remaining_time == 0
 
-    def get_pixel_position(self, row, col):
-        """Đổi từ vị trí của quân trong board sang vị trí điểm(pixel) tương ứng với trong screen"""
-        x = config.BOARD_X + (col - 1) * config.TILE_SIZE + config.TILE_SIZE // 2
-        y = config.BOARD_Y + (row - 1) * config.TILE_SIZE + config.TILE_SIZE // 2
-        return x, y
-
-    def draw_connection(self, path, color = config.RED, width = 5):
-        if not path:
-            return
-        for i in range(len(path) - 1):
-            pygame.draw.line(self.screen, color, self.get_pixel_position(*path[i]), self.get_pixel_position(*path[i+1]), width)
-
     def draw(self):
-        self.screen.fill(config.ORANGE)
+        # self.screen.fill(config.ORANGE)
+        self.screen.blit(Background.load_image("assets/images/bgk.jpg"), (0, 0))
+
         for row in range(1, config.NUM_ROWS + 1):
             for col in range(1, config.NUM_COLS + 1):
                 if self.tiles[row][col] is not None:
@@ -168,7 +103,7 @@ class Board(Screen):
 
             if self.pause.rect.collidepoint(event.pos):
                 print("Bạn đã tạm dừng")
-                Sound.sound_manager.play_sound(config.CLICK)
+                Sound.play_music(config.CLICK)
                 if not setting.PAUSE:
                     setting.LEVEL_OF_SCREEN = 4
                     setting.PAUSE = True
@@ -176,19 +111,19 @@ class Board(Screen):
 
             if self.hint.rect.collidepoint(event.pos):
                 print("Bạn đã nhận được sự trợ giúp")
-                (r1, c1), (r2, c2) = get_hint(self.tiles)
+                (r1, c1), (r2, c2) = Hint.get_hint(self.tiles)
                 print(f"({r1}, {c1}) - ({r2}, {c2})")
                 self.tiles[r1][c1].is_hinted = True
                 self.tiles[r2][c2].is_hinted = True
 
             if self.shuffle.rect.collidepoint(event.pos):
                 print("Bạn đã chọn đảo")
-                self.shuffle_board()
+                Gennergate.gennerage_board(self.pokemon_images, self.tiles, self.total_tiles, self.num_tiles_lost)
 
             for btn in self.restart_back.buttons:
                 if btn.btn["rect"].collidepoint(event.pos):
                     print(f"Bạn đã chọn vào {btn.btn_name}")
-                    Sound.sound_manager.play_sound(config.CLICK)
+                    Sound.play_music(config.CLICK)
                     setting.TOTAL_SCORE = 0
                     setting.LEVEL = 1
                     self.num_tiles_lost = 0
@@ -196,7 +131,7 @@ class Board(Screen):
                     if btn.btn_name == "Back":
                         setting.LEVEL_OF_SCREEN = 1
                     elif btn.btn_name == "Restart":
-                        self.generate_board()
+                        Gennergate.gennerage_board(self.pokemon_images, self.tiles, self.total_tiles)
                         Board.start_time = pygame.time.get_ticks()
 
             for row in range(1, config.NUM_ROWS + 1):
@@ -206,11 +141,11 @@ class Board(Screen):
                         self.tiles[row][col].is_selected = not self.tiles[row][col].is_selected
 
                         if not self.first_tile:
-                            Sound.sound_manager.play_sound(config.CLICK)
+                            Sound.play_music(config.CLICK)
                             self.first_tile = (row, col)
                         else:
                             second_tile = (row, col)
-                            path = can_connect(self.tiles, self.first_tile, second_tile)
+                            path = ConnectProcessing.can_connect(self.tiles, self.first_tile, second_tile)
 
                             if path is not None:
                                 print("Nối thành công")
@@ -220,14 +155,13 @@ class Board(Screen):
                                 setting.TOTAL_SCORE += setting.SCORE
                                 self.num_tiles_lost += 2
                                 self.check_any_valid_pair()
-                                Sound.sound_manager.play_sound(config.MATCHED)
-                                self.draw_connection(path)
+                                Sound.play_music(config.MATCHED)
+                                ConnectProcessing.draw_connection(self.screen, path)
                                 pygame.display.update()
                                 pygame.time.delay(300)
                             else:
                                 print("Nối không thành công")
                                 self.tiles[self.first_tile[0]][self.first_tile[1]].is_selected = False
                                 self.tiles[second_tile[0]][second_tile[1]].is_selected = False
-                                Sound.sound_manager.play_sound(config.NOT_SELECTED)
-
+                                Sound.play_music(config.NOT_SELECTED)
                             self.first_tile = None
