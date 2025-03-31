@@ -1,7 +1,6 @@
 import random
 
-from core import config
-from core.button.tile import Tile
+from core import config, button
 
 
 class Gennergate:
@@ -38,7 +37,7 @@ class Gennergate:
             for col in range(1, config.NUM_COLS + 1):
                 x = config.BOARD_X + (col - 1) * config.TILE_SIZE
                 y = config.BOARD_Y + (row - 1) * config.TILE_SIZE
-                tiles[row][col] = Tile(tile_pairs[index], (x, y), (config.TILE_SIZE, config.TILE_SIZE))
+                tiles[row][col] = button.tile.Tile(tile_pairs[index], (x, y), (config.TILE_SIZE, config.TILE_SIZE))
                 index += 1
     @staticmethod
     def reset_board_tiles(tiles, tile_pairs):
@@ -49,5 +48,5 @@ class Gennergate:
                 if tiles[row][col] is not None:
                     x = config.BOARD_X + (col - 1) * config.TILE_SIZE
                     y = config.BOARD_Y + (row - 1) * config.TILE_SIZE
-                    tiles[row][col] = Tile(tile_pairs[index], (x, y), (config.TILE_SIZE, config.TILE_SIZE))
+                    tiles[row][col] = button.tile.Tile(tile_pairs[index], (x, y), (config.TILE_SIZE, config.TILE_SIZE))
                     index += 1

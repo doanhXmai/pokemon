@@ -1,9 +1,8 @@
 import pygame
 
 from core import config
-from core.processor import find_pass
+from core import processor
 from core.processor.position import get_pixel_position
-
 
 class ConnectProcessing:
     @staticmethod
@@ -26,7 +25,7 @@ class ConnectProcessing:
             return None
 
         # Tìm đường nối giữa 2 ô
-        path = find_pass(tiles, pos1, pos2)
+        path = processor.BFS.find_pass(tiles, pos1, pos2)
         # Số ô trong đường nối (bao gồm ô xuất phát và đích) phải từ 2 đến 4
         if 2 <= len(path) <= 4:
             return path
@@ -36,4 +35,4 @@ class ConnectProcessing:
         if not path:
             return
         for i in range(len(path) - 1):
-            pygame.draw.line(screen, color, get_pixel_position(*path[i]), get_pixel_position(*path[i+1]), width)
+            pygame.draw.line(screen, color, processor.position.get_pixel_position(*path[i]), get_pixel_position(*path[i+1]), width)

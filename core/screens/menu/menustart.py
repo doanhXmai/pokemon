@@ -1,8 +1,7 @@
 import pygame
 import sys
 
-from core import setting, config
-from core.button.btntext import btnTXT
+from core import setting, config, button
 from core.screens.screen import Screen
 from core.sound.sound import Sound
 
@@ -14,8 +13,8 @@ class MenuStart(Screen):
         self.font = pygame.font.Font(setting.FONT_PATH, 48)
 
         self.buttons = [
-            btnTXT("Bắt đầu", self.font, config.YELLOW, config.BLACK, pygame.Rect(270, 400, 180, 60)),
-            btnTXT("Thoát", self.font, config.YELLOW, config.BLACK, pygame.Rect(580, 400, 180, 60))
+            button.btntext.btnTXT("Bắt đầu", self.font, config.YELLOW, config.BLACK, pygame.Rect(270, 400, 180, 60)),
+            button.btntext.btnTXT("Thoát", self.font, config.YELLOW, config.BLACK, pygame.Rect(580, 400, 180, 60))
         ]
 
     def draw(self):

@@ -1,6 +1,6 @@
 import pygame
 
-from core import setting, config
+from core import setting, config, button
 from core.screens.screen import Screen
 from core.sound.sound import Sound
 
@@ -15,14 +15,13 @@ class MenuLevel(Screen):
         self.back_icon = pygame.transform.scale(self.back_icon, (40, 40))
         self.back_rect = self.back_icon.get_rect(topleft=(10, 10))
 
-        # Danh sách các nút chọn chế độ chơi
         self.buttons = [
-            {"text": "Tập luyện", "color": (255, 182, 193), "text_color": (255, 165, 0),
-             "rect": pygame.Rect((config.SCREEN_WIDTH - 400) // 2, 200, 400, 60)},
-            {"text": "Chơi với máy", "color": (255, 182, 193), "text_color": (30, 144, 255),
-             "rect": pygame.Rect((config.SCREEN_WIDTH - 400) // 2, 300, 400, 60)},
-            {"text": "Chơi với người", "color": (255, 182, 193), "text_color": (50, 205, 50),
-             "rect": pygame.Rect((config.SCREEN_WIDTH - 400) // 2, 400, 400, 60)}
+            button.btntext.btnTXT("Tập luyện", self.font, config.LIGHT_PINK, config.ORANGE,
+                                  pygame.Rect((config.SCREEN_WIDTH - 400) // 2, 200, 400, 60)),
+            button.btntext.btnTXT("Chơi với máy", self.font, config.LIGHT_PINK, config.DODGER_BLUE,
+                                  pygame.Rect((config.SCREEN_WIDTH - 400) // 2, 300, 400, 60)),
+            button.btntext.btnTXT("Chơi với người", self.font, config.LIGHT_PINK, config.LIME_GREEN,
+                                  pygame.Rect((config.SCREEN_WIDTH - 400) // 2, 400, 400, 60))
         ]
 
 
@@ -38,11 +37,7 @@ class MenuLevel(Screen):
 
         # Vẽ các nút
         for btn in self.buttons:
-            pygame.draw.rect(self.screen, btn["color"], btn["rect"], border_radius=15)
-            text_surface = self.font.render(btn["text"], True, btn["text_color"])
-            text_x = btn["rect"].x + (btn["rect"].width - text_surface.get_width()) // 2
-            text_y = btn["rect"].y + (btn["rect"].height - text_surface.get_height()) // 2
-            self.screen.blit(text_surface, (text_x, text_y))
+            btn.draw(self.screen)
 
         pygame.display.flip()
 
@@ -54,8 +49,8 @@ class MenuLevel(Screen):
                 print("Quay lại menu chính")
                 setting.LEVEL_OF_SCREEN = 0
             for btn in self.buttons:
-                if btn["rect"].collidepoint(event.pos):
-                    print(f"Bạn đã chọn: {btn['text']}")
-                    if btn["text"] == "Tập luyện":
+                if btn.btn["rect"].collidepoint(event.pos):
+                    print(f"Bạn đã chọn: {btn.btn['text']}")
+                    if btn.btn_name == "Tập luyện":
                         setting.LEVEL_OF_SCREEN = 2
                     Sound.play_music(config.CLICK)

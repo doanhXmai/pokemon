@@ -21,9 +21,13 @@ BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
 YELLOW = (255, 215, 0)
 RED = (255, 50, 50)
+LIME_GREEN = (50, 205, 50)
 GREEN = (125, 255, 0)
 LIGHT_BLUE = (173, 216, 230)
+DODGER_BLUE = (30, 144, 255)
 BLUE = (0, 0, 255)
+LIGHT_PINK = (255, 182, 193)
+
 
 # Âm thanh
 CLICK = "click"

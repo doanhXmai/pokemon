@@ -1,16 +1,8 @@
 import pygame
 
-from core import setting, config
-from core.button.btnpause import btnPause
-from core.button.btnhint import btnHint
-from core.button.btnrestartandback import btnRestartAndBack
-from core.button.btnshuffle import btnShuffle
-from core.processor import Hint
-from core.processor.connect import ConnectProcessing
-from core.processor.generate import Gennergate
-from core.screens.background import Background
+from core import setting, config, button, processor, screens, sound
 from core.screens.screen import Screen
-from core.sound.sound import Sound
+
 
 class Board(Screen):
 
@@ -34,18 +26,17 @@ class Board(Screen):
         print(f"time được cập nhật: {self.time_limit}")
         self.remaining_time = 0
 
-
         board_center_x = config.SCREEN_WIDTH // 2
         board_y = config.BOARD_Y - 40
 
-        self.pause = btnPause("assets/images/pause.png", (board_center_x, board_y))
-        self.hint = btnHint("assets/images/hint.png", (board_center_x + 50, board_y))
-        self.shuffle = btnShuffle("assets/images/shuffle.png", (board_center_x + 100, board_y))
+        self.pause = button.btnpause.btnPause("assets/images/pause.png", (board_center_x, board_y))
+        self.hint = button.btnhint.btnHint("assets/images/hint.png", (board_center_x + 50, board_y))
+        self.shuffle = button.btnshuffle.btnShuffle("assets/images/shuffle.png", (board_center_x + 100, board_y))
 
-        self.restart_back = btnRestartAndBack()
+        self.restart_back = button.btnrestartandback.btnRestartAndBack()
 
         # self.generate_board()
-        Gennergate.gennerage_board(self.pokemon_images, self.tiles, self.total_tiles)
+        processor.generate.Gennergate.gennerage_board(self.pokemon_images, self.tiles, self.total_tiles)
 
     def is_board_empty(self):
         """Confirm that the board tiles are None"""
@@ -56,16 +47,16 @@ class Board(Screen):
         return True
 
     def check_any_valid_pair(self):
-        if Hint.get_hint(self.tiles) is not None:
+        if processor.hint.Hint.get_hint(self.tiles) is not None:
             return
-        Gennergate.gennerage_board(self.pokemon_images, self.tiles, self.total_tiles, self.num_tiles_lost)
+        processor.generate.Gennergate.gennerage_board(self.pokemon_images, self.tiles, self.total_tiles, self.num_tiles_lost)
 
     def you_lose(self):
         setting.LOSE = self.remaining_time == 0
 
     def draw(self):
         # self.screen.fill(config.ORANGE)
-        self.screen.blit(Background.load_image("assets/images/bgk.jpg"), (0, 0))
+        self.screen.blit(screens.background.Background.load_image("assets/images/bgk.jpg"), (0, 0))
 
         for row in range(1, config.NUM_ROWS + 1):
             for col in range(1, config.NUM_COLS + 1):
@@ -103,7 +94,7 @@ class Board(Screen):
 
             if self.pause.rect.collidepoint(event.pos):
                 print("Bạn đã tạm dừng")
-                Sound.play_music(config.CLICK)
+                sound.sound.Sound.play_music(config.CLICK)
                 if not setting.PAUSE:
                     setting.LEVEL_OF_SCREEN = 4
                     setting.PAUSE = True
@@ -111,19 +102,19 @@ class Board(Screen):
 
             if self.hint.rect.collidepoint(event.pos):
                 print("Bạn đã nhận được sự trợ giúp")
-                (r1, c1), (r2, c2) = Hint.get_hint(self.tiles)
+                (r1, c1), (r2, c2) = processor.hint.Hint.get_hint(self.tiles)
                 print(f"({r1}, {c1}) - ({r2}, {c2})")
                 self.tiles[r1][c1].is_hinted = True
                 self.tiles[r2][c2].is_hinted = True
 
             if self.shuffle.rect.collidepoint(event.pos):
                 print("Bạn đã chọn đảo")
-                Gennergate.gennerage_board(self.pokemon_images, self.tiles, self.total_tiles, self.num_tiles_lost)
+                processor.generate.Gennergate.gennerage_board(self.pokemon_images, self.tiles, self.total_tiles, self.num_tiles_lost)
 
             for btn in self.restart_back.buttons:
                 if btn.btn["rect"].collidepoint(event.pos):
                     print(f"Bạn đã chọn vào {btn.btn_name}")
-                    Sound.play_music(config.CLICK)
+                    sound.sound.Sound.play_music(config.CLICK)
                     setting.TOTAL_SCORE = 0
                     setting.LEVEL = 1
                     self.num_tiles_lost = 0
@@ -131,7 +122,7 @@ class Board(Screen):
                     if btn.btn_name == "Back":
                         setting.LEVEL_OF_SCREEN = 1
                     elif btn.btn_name == "Restart":
-                        Gennergate.gennerage_board(self.pokemon_images, self.tiles, self.total_tiles)
+                        processor.generate.Gennergate.gennerage_board(self.pokemon_images, self.tiles, self.total_tiles)
                         Board.start_time = pygame.time.get_ticks()
 
             for row in range(1, config.NUM_ROWS + 1):
@@ -141,11 +132,11 @@ class Board(Screen):
                         self.tiles[row][col].is_selected = not self.tiles[row][col].is_selected
 
                         if not self.first_tile:
-                            Sound.play_music(config.CLICK)
+                            sound.sound.Sound.play_music(config.CLICK)
                             self.first_tile = (row, col)
                         else:
                             second_tile = (row, col)
-                            path = ConnectProcessing.can_connect(self.tiles, self.first_tile, second_tile)
+                            path = processor.connect.ConnectProcessing.can_connect(self.tiles, self.first_tile, second_tile)
 
                             if path is not None:
                                 print("Nối thành công")
@@ -155,13 +146,13 @@ class Board(Screen):
                                 setting.TOTAL_SCORE += setting.SCORE
                                 self.num_tiles_lost += 2
                                 self.check_any_valid_pair()
-                                Sound.play_music(config.MATCHED)
-                                ConnectProcessing.draw_connection(self.screen, path)
+                                sound.sound.Sound.play_music(config.MATCHED)
+                                processor.connect.ConnectProcessing.draw_connection(self.screen, path)
                                 pygame.display.update()
                                 pygame.time.delay(300)
                             else:
                                 print("Nối không thành công")
                                 self.tiles[self.first_tile[0]][self.first_tile[1]].is_selected = False
                                 self.tiles[second_tile[0]][second_tile[1]].is_selected = False
-                                Sound.play_music(config.NOT_SELECTED)
+                                sound.sound.Sound.play_music(config.NOT_SELECTED)
                             self.first_tile = None

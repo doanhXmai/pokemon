@@ -1,6 +1,5 @@
 import pygame
 
-
 class btnTXT:
     def __init__(self, btn_name, font, color, text_color, rect):
         self.btn_name = btn_name

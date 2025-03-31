@@ -1,5 +1,4 @@
-from core import config
-from core.processor.connect import ConnectProcessing
+from core import config, processor
 
 class Hint:
     @staticmethod
@@ -17,6 +16,6 @@ class Hint:
                         tile2 = tiles[row2][col2]
                         if tile2 is None:
                             continue
-                        if ConnectProcessing.can_connect(tiles, (row1, col1), (row2, col2)):
+                        if processor.connect.ConnectProcessing.can_connect(tiles, (row1, col1), (row2, col2)):
                             return (row1, col1), (row2, col2)
         return None

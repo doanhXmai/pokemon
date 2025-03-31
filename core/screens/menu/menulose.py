@@ -1,8 +1,7 @@
 import pygame
 
-from core import setting, config
+from core import setting, config, button
 from core.screens.board import Board
-from core.button.btntext import btnTXT
 from core.screens.screen import Screen
 from core.sound.sound import Sound
 
@@ -23,10 +22,10 @@ class MenuLose(Screen):
         # font chữ cho các nút
         btn_font = pygame.font.Font(None, 40)
         # Nút "Tiếp tục"
-        self.btn_continue = btnTXT("Tiếp tục", btn_font, config.GREEN, config.WHITE,
+        self.btn_continue = button.btntext.btnTXT("Tiếp tục", btn_font, config.GREEN, config.WHITE,
                                    pygame.Rect(center_x - 100, center_y, 200, 50))
         # Nút trở về
-        self.btn_back = btnTXT("Trở về", btn_font, config.RED, config.WHITE,
+        self.btn_back = button.btntext.btnTXT("Trở về", btn_font, config.RED, config.WHITE,
                                pygame.Rect(center_x - 100, center_y + 80, 200, 50))
 
     def draw(self):

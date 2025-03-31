@@ -2,32 +2,29 @@ import sys
 import pygame
 
 from core import setting, config
-from core.config import *
+from core.screens import menu
 from core.screens.board import Board
-from core.screens.menu.menulevel import MenuLevel
-from core.screens.menu.menulose import MenuLose
-from core.screens.menu.menupause import MenuPause
-from core.screens.menu.menustart import MenuStart
-from core.screens.menu.menuwin import MenuWin
 from core.sound.sound import Sound
 
 
 class Game:
     def __init__(self):
         pygame.init()
-        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.screen = pygame.display.set_mode((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
         pygame.display.set_caption("Pokémon Nối hình")
         Sound.load_sound()
 
-        # Các màn hình menu
-        self.menu_start = MenuStart(self.screen)
-        self.menu_level = MenuLevel(self.screen)
-        self.menu_pause = MenuPause(self.screen)
-        self.menu_win = MenuWin(self.screen)
-        self.menu_lose = MenuLose(self.screen)
+        # screen menus
+        self.menu_start = menu.menustart.MenuStart(self.screen)
+        self.menu_level = menu.menulevel.MenuLevel(self.screen)
+        self.menu_pause = menu.menupause.MenuPause(self.screen)
+        self.menu_win = menu.menuwin.MenuWin(self.screen)
+        self.menu_lose = menu.menulose.MenuLose(self.screen)
 
-        # Màn hình chơi chính
+        # screen main
         self.board = None
+
+        # condition to start game loop
         self.running = True
 
     def run(self):

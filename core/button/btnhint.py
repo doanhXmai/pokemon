@@ -2,7 +2,6 @@ import pygame
 
 from core.ui import UI
 
-
 class btnHint(UI):
     def __init__(self, image_path, position):
         super().__init__(image_path, position)
