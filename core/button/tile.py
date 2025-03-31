@@ -18,7 +18,6 @@ class Tile(UI):
     def scope_rect(self, position):
         self.rect = self.image.get_rect(topleft=position)
 
-
     def draw(self, screen):
         screen.blit(self.image, self.rect)
         if self.is_selected:
@@ -28,7 +27,6 @@ class Tile(UI):
             overlay = pygame.Surface(self.rect.size, pygame.SRCALPHA)  # Tạo surface trong suốt
             overlay.fill((128, 128, 128, 100))  # Màu xám, độ trong suốt 100
             screen.blit(overlay, self.rect.topleft)  # Phủ lên tile
-
 
     def handle_event(self, event):
         pass
