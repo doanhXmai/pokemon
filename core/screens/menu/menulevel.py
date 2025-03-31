@@ -1,8 +1,7 @@
 import pygame
 
-from core import setting, config, button
+from core import setting, config, button, sound
 from core.screens.screen import Screen
-from core.sound.sound import Sound
 
 
 class MenuLevel(Screen):
@@ -53,4 +52,4 @@ class MenuLevel(Screen):
                     print(f"Bạn đã chọn: {btn.btn['text']}")
                     if btn.btn_name == "Tập luyện":
                         setting.LEVEL_OF_SCREEN = 2
-                    Sound.play_music(config.CLICK)
+                    sound.sound.Sound.play_music(config.CLICK)

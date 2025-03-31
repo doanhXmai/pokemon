@@ -1,9 +1,7 @@
 import pygame
 
-from core import setting, config, button
-from core.screens.board import Board
+from core import setting, config, button, screens, sound
 from core.screens.screen import Screen
-from core.sound.sound import Sound
 
 class MenuLose(Screen):
     def __init__(self, screen):
@@ -48,11 +46,11 @@ class MenuLose(Screen):
                 setting.SCORE = 10 * setting.LEVEL
                 setting.LEVEL_OF_SCREEN = 2  # Quay lại màn chơi
                 setting.LOSE = False
-                Board.pause_time = 0
-                Board.start_time = pygame.time.get_ticks()
-                Sound.play_music(config.CLICK)
+                screens.board.Board.pause_time = 0
+                screens.board.Board.start_time = pygame.time.get_ticks()
+                sound.sound.Sound.play_music(config.CLICK)
 
             elif self.btn_back.btn["rect"].collidepoint(event.pos):
                 print("Quay về menu chính")
                 setting.LEVEL_OF_SCREEN = 1  # Quay về menu chính
-                Sound.play_music(config.CLICK)
+                sound.sound.Sound.play_music(config.CLICK)

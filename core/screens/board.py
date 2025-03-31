@@ -6,6 +6,7 @@ from core.screens.screen import Screen
 
 class Board(Screen):
 
+    back = False
     pause_time = 0
     start_time = pygame.time.get_ticks()
 
@@ -75,8 +76,7 @@ class Board(Screen):
 
         # Vẽ điểm
         score_text = pygame.font.Font(setting.FONT_PATH, 36).render(f"Điểm: {setting.TOTAL_SCORE}", True, (0, 0, 0))
-        text_rect = score_text.get_rect(center=(
-            config.SCREEN_WIDTH // 2, ((config.NUM_ROWS + 2) * config.TILE_SIZE) + 50))
+        text_rect = score_text.get_rect(center=(config.SCREEN_WIDTH // 2, ((config.NUM_ROWS + 2) * config.TILE_SIZE) + 50))
         self.screen.blit(score_text, text_rect)
 
         # Vẽ các nút chức năng khác
@@ -121,6 +121,7 @@ class Board(Screen):
 
                     if btn.btn_name == "Back":
                         setting.LEVEL_OF_SCREEN = 1
+                        Board.back = True
                     elif btn.btn_name == "Restart":
                         processor.generate.Gennergate.gennerage_board(self.pokemon_images, self.tiles, self.total_tiles)
                         Board.start_time = pygame.time.get_ticks()
