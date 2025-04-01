@@ -74,7 +74,6 @@ class Board(Screen):
         self.hint.draw(self.screen)
         self.shuffle.draw(self.screen)
         self.restart_back.draw(self.screen)
-        pygame.display.flip()
 
         # Timer
         elapsed_time = (pygame.time.get_ticks() - Board.start_time) // 1000
