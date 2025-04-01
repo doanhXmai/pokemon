@@ -2,7 +2,6 @@ import sys
 import pygame
 
 from core import setting, config, screens, sound
-from core.screens.board import Board
 
 
 class Game:
@@ -62,29 +61,26 @@ class Game:
         if setting.LEVEL_OF_SCREEN == 0:
             self.menu_start.draw()  # Vẽ menu start
         elif setting.LEVEL_OF_SCREEN == 1:
+            self.menu_level.draw()  # Vẽ menu level
+        elif setting.LEVEL_OF_SCREEN == 2:
             if screens.board.Board.back:
                 self.board = None
                 screens.board.Board.back = False
             if self.board is None: self.board = screens.board.Board(self.screen)
-            self.menu_level.draw()  # Vẽ menu level
-
-        elif setting.LEVEL_OF_SCREEN == 2:
             self.board.draw()
             if setting.LOSE:
                 sound.sound.Sound.play_music(config.LOSE)
                 setting.LEVEL_OF_SCREEN = 6
                 setting.LOSE = False
             if setting.WIN:
+                sound.sound.Sound.play_music(config.WIN)
                 setting.LEVEL += 1  # Chuyển sang level tiếp theo
                 setting.SCORE = 10 * setting.LEVEL
                 setting.LEVEL_OF_SCREEN = 5
-                sound.sound.Sound.play_music(config.WIN)
                 setting.WIN = False
         elif setting.LEVEL_OF_SCREEN == 4:
             self.menu_pause.draw() # Vẽ menu pause
         elif setting.LEVEL_OF_SCREEN == 5:
-            self.board = screens.board.Board(self.screen)
             self.menu_win.draw() # Vẽ menu win
         elif setting.LEVEL_OF_SCREEN == 6:
-            self.board = screens.board.Board(self.screen)
             self.menu_lose.draw()

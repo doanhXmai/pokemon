@@ -42,6 +42,7 @@ class MenuLose(Screen):
             if self.btn_continue.btn["rect"].collidepoint(event.pos):
                 setting.LEVEL = 1  # Chuyển về level 1
                 print(f"Bạn có muốn chơi lại")
+                screens.board.Board.back = True
                 setting.TOTAL_SCORE = 0
                 setting.SCORE = 10 * setting.LEVEL
                 setting.LEVEL_OF_SCREEN = 2  # Quay lại màn chơi
@@ -52,5 +53,6 @@ class MenuLose(Screen):
 
             elif self.btn_back.btn["rect"].collidepoint(event.pos):
                 print("Quay về menu chính")
+                screens.board.Board.back = True
                 setting.LEVEL_OF_SCREEN = 1  # Quay về menu chính
                 sound.sound.Sound.play_music(config.CLICK)

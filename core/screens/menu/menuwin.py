@@ -1,6 +1,6 @@
 import pygame
 
-from core import setting, config, button
+from core import setting, config, button, screens
 from core.screens.board import Board
 from core.screens.screen import Screen
 from core.sound.sound import Sound
@@ -46,9 +46,11 @@ class MenuWin(Screen):
                 Board.start_time = pygame.time.get_ticks()
                 Board.pause_time = 0
                 Sound.play_music(config.CLICK)
+                screens.board.Board.back = True
                 print(f"Tiếp tục chơi màn {setting.LEVEL}")
 
             elif self.btn_back.btn["rect"].collidepoint(event.pos):
                 setting.LEVEL_OF_SCREEN = 1  # Quay về menu chính
                 Sound.play_music(config.CLICK)
+                screens.board.Board.back = True
                 print("Quay về menu chính")
