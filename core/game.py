@@ -2,6 +2,7 @@ import sys
 import pygame
 
 from core import setting, config, screens, sound
+from core.screens.menu.menuwin import MenuWin
 
 
 class Game:
@@ -14,7 +15,6 @@ class Game:
 
         # load âm thanh
         sound.sound.Sound.load_sound()
-
 
         # screen menus
         self.menu_start = screens.menu.menustart.MenuStart(self.screen)
@@ -56,31 +56,49 @@ class Game:
                 self.menu_win.handle_event(event)
             elif setting.LEVEL_OF_SCREEN == 6:
                 self.menu_lose.handle_event(event)
+            elif setting.LEVEL_OF_SCREEN == 7:
+                self.board.handle_event(event)
 
     def draw(self):
         if setting.LEVEL_OF_SCREEN == 0:
-            self.menu_start.draw()  # Vẽ menu start
+            self.menu_start.draw()  # Draw start menu
         elif setting.LEVEL_OF_SCREEN == 1:
-            self.menu_level.draw()  # Vẽ menu level
+            self.menu_level.draw()  # Draw level menu
         elif setting.LEVEL_OF_SCREEN == 2:
-            if screens.board.Board.back:
+            if screens.boards.board.Board.back:
                 self.board = None
-                screens.board.Board.back = False
-            if self.board is None: self.board = screens.board.Board(self.screen)
+                screens.boards.board.Board.back = False
+            if self.board is None: self.board = screens.boards.boardsolo.BoardOfSolo(self.screen)
             self.board.draw()
             if setting.LOSE:
                 sound.sound.Sound.play_music(config.LOSE)
                 setting.LEVEL_OF_SCREEN = 6
                 setting.LOSE = False
+                screens.boards.boardsolo.BoardOfSolo.shuffle = 7
+                screens.boards.boardsolo.BoardOfSolo.hint = 7
             if setting.WIN:
                 sound.sound.Sound.play_music(config.WIN)
                 setting.LEVEL += 1  # Chuyển sang level tiếp theo
                 setting.SCORE = 10 * setting.LEVEL
                 setting.LEVEL_OF_SCREEN = 5
                 setting.WIN = False
+                MenuWin.isSolo = True
         elif setting.LEVEL_OF_SCREEN == 4:
             self.menu_pause.draw() # Vẽ menu pause
         elif setting.LEVEL_OF_SCREEN == 5:
             self.menu_win.draw() # Vẽ menu win
         elif setting.LEVEL_OF_SCREEN == 6:
             self.menu_lose.draw()
+        elif setting.LEVEL_OF_SCREEN == 7:
+            if screens.boards.board.Board.back:
+                self.board = None
+                screens.boards.board.Board.back = False
+            if self.board is None: self.board = screens.boards.boardtraning.BoardOfTraining(self.screen)
+            self.board.draw()
+            if setting.WIN:
+                sound.sound.Sound.play_music(config.WIN)
+                setting.LEVEL += 1  # Chuyển sang level tiếp theo
+                setting.SCORE = 10 * setting.LEVEL
+                setting.LEVEL_OF_SCREEN = 5
+                setting.WIN = False
+                MenuWin.isSolo = False

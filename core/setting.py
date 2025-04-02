@@ -1,11 +1,12 @@
 '''
-    LEVEL_OF_SCREEN = 0 chạy menu start
-    LEVEL_OF_SCREEN = 1 chạy menu chọn cách chơi
-    LEVEL_OF_SCREEN = 2 tập luyện
-    LEVEL_OF_SCREEN = 3 chơi với máy
+    LEVEL_OF_SCREEN = 0 menu: start
+    LEVEL_OF_SCREEN = 1 menu: select game mode
+    LEVEL_OF_SCREEN = 2 mode: solo
+    LEVEL_OF_SCREEN = 3 battle bot
     LEVEL_OF_SCREEN = 4 pause
     LEVEL_OF_SCREEN = 5 WIN
     LEVEL_OF_SCREEN = 6 LOSE
+    LEVEL_OF_SCREEN = 7 Training
 '''
 import os.path
 from pickle import FALSE

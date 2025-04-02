@@ -1,42 +1,31 @@
 import pygame
 
+from assets import assets
 from core import setting, config, button, processor, screens, sound
 from core.screens.screen import Screen
 
 class Board(Screen):
 
     back = False
-    pokemon_images = [f"assets/images/pieces{i}.png" for i in range(1, 20)]
-    pause_time = 0
-    start_time = pygame.time.get_ticks()
 
     def __init__(self, screen):
         super().__init__(screen)
         self.total_tiles = config.NUM_ROWS * config.NUM_COLS
         self.num_tiles_lost = 0
 
-        Board.start_time = pygame.time.get_ticks()
-        Board.pause_time = 0
-
         # The board has a size of (NUM_ROWS+2) x (NUM_COLS+2) to add a empty border
         self.tiles = [[None for _ in range(config.NUM_COLS + 2)] for _ in range(config.NUM_ROWS + 2)]
         self.first_tile = None
 
-        # Create buttons
-        board_center_x = config.SCREEN_WIDTH // 2
-        board_y = config.BOARD_Y - 40
-
-        self.pause = button.btnpause.btnPause("assets/images/pause.png", (board_center_x, board_y))
-        self.hint = button.btnhint.btnHint("assets/images/hint.png", (board_center_x + 50, board_y))
-        self.shuffle = button.btnshuffle.btnShuffle("assets/images/shuffle.png", (board_center_x + 100, board_y))
-        self.restart_back = button.btnrestartandback.btnRestartAndBack()
-
         # Create Board
-        processor.generate.Gennergate.gennerage_board(Board.pokemon_images, self.tiles, self.total_tiles)
-        # Bộ đếm thời gian
-        self.time_limit = max(200 - (setting.LEVEL - 1) * 20, 10)
-        print(f"time được cập nhật: {self.time_limit}")
-        self.remaining_time = 0
+        processor.generate.Gennergate.gennerage_board(assets.pokemon_images, self.tiles, self.total_tiles)
+
+        # Create buttons
+        self.board_center_x = config.SCREEN_WIDTH // 2
+        self.board_y = config.BOARD_Y - 40
+
+        self.pause = button.btnpause.btnPause(assets.button_path["pause"], (self.board_center_x, self.board_y))
+        self.restart_back = button.btnrestartandback.btnRestartAndBack()
 
     def is_board_empty(self):
         """Confirm that the board tiles are None"""
@@ -50,13 +39,10 @@ class Board(Screen):
         """There are no more pairs of Pokémon"""
         if processor.hint.Hint.get_hint(self.tiles) is not None:
             return
-        processor.generate.Gennergate.gennerage_board(Board.pokemon_images, self.tiles, self.total_tiles, self.num_tiles_lost)
-
-    def you_lose(self):
-        setting.LOSE = self.remaining_time == 0
+        processor.generate.Gennergate.gennerage_board(assets.pokemon_images, self.tiles, self.total_tiles, self.num_tiles_lost)
 
     def draw(self):
-        self.screen.blit(screens.background.Background.load_image("assets/images/bgk.jpg"), (0, 0))
+        self.screen.blit(screens.background.Background.load_image(assets.background), (0, 0))
 
         for row in range(1, config.NUM_ROWS + 1):
             for col in range(1, config.NUM_COLS + 1):
@@ -71,19 +57,7 @@ class Board(Screen):
         # Draw button
         self.draw_sound_button()
         self.pause.draw(self.screen)
-        self.hint.draw(self.screen)
-        self.shuffle.draw(self.screen)
         self.restart_back.draw(self.screen)
-
-        # Timer
-        elapsed_time = (pygame.time.get_ticks() - Board.start_time) // 1000
-        self.remaining_time = max(self.time_limit - elapsed_time, 0)  # đảm bảo không âm
-        # Draw time
-        font = pygame.font.Font(setting.FONT_PATH, 50)
-        time_text = font.render(f"Time: {self.remaining_time}s - Level: {setting.LEVEL}", True, config.BLACK)
-        self.screen.blit(time_text, (10, 10))
-        self.you_lose()
-        pygame.display.flip()
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN: # Turn on or turn off volume
@@ -98,17 +72,6 @@ class Board(Screen):
                     setting.PAUSE = True
                     Board.pause_time = pygame.time.get_ticks()
 
-            if self.hint.rect.collidepoint(event.pos):
-                print("Bạn đã nhận được sự trợ giúp")
-                (r1, c1), (r2, c2) = processor.hint.Hint.get_hint(self.tiles)
-                print(f"({r1}, {c1}) - ({r2}, {c2})")
-                self.tiles[r1][c1].is_hinted = True
-                self.tiles[r2][c2].is_hinted = True
-
-            if self.shuffle.rect.collidepoint(event.pos):
-                print("Bạn đã chọn đảo")
-                processor.generate.Gennergate.gennerage_board(Board.pokemon_images, self.tiles, self.total_tiles, self.num_tiles_lost)
-
             for btn in self.restart_back.buttons:
                 if btn.btn["rect"].collidepoint(event.pos):
                     print(f"Bạn đã chọn vào {btn.btn_name}")
@@ -121,8 +84,7 @@ class Board(Screen):
                         setting.LEVEL_OF_SCREEN = 1
                         Board.back = True
                     elif btn.btn_name == "Restart":
-                        processor.generate.Gennergate.gennerage_board(Board.pokemon_images, self.tiles, self.total_tiles)
-                        Board.start_time = pygame.time.get_ticks()
+                        processor.generate.Gennergate.gennerage_board(assets.pokemon_images, self.tiles, self.total_tiles)
 
             for row in range(1, config.NUM_ROWS + 1):
                 for col in range(1, config.NUM_COLS + 1):
@@ -155,10 +117,3 @@ class Board(Screen):
                                 self.tiles[second_tile[0]][second_tile[1]].is_selected = False
                                 sound.sound.Sound.play_music(config.NOT_SELECTED)
                             self.first_tile = None
-
-class BoardOfTrainingMode(Board):
-    def __init__(self, screen):
-        super().__init__(screen)
-class BoardOfBattleBot(Board):
-    def __init__(self, screen):
-        super().__init__(screen)

@@ -1,8 +1,9 @@
 import pygame
 
 from core import setting, config, button
-from core.screens.board import Board
+from board import Board
 from core.screens.screen import Screen
+from core.screens.boards.boardsolo import BoardOfSolo
 from core.sound.sound import Sound
 
 
@@ -31,6 +32,6 @@ class MenuPause(Screen):
             if self.btn_continue.btn["rect"].collidepoint(event.pos):
                 print(f"Bạn đã bấm nút {self.btn_continue.btn["text"]}")
                 setting.PAUSE = False
-                Board.start_time += pygame.time.get_ticks() - Board.pause_time
+                BoardOfSolo.start_time += pygame.time.get_ticks() - BoardOfSolo.pause_time
                 setting.LEVEL_OF_SCREEN = 2
                 Sound.play_music(config.CLICK)

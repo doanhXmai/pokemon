@@ -1,1 +1,2 @@
-from . import menu, about, background, board, screen
+from . import menu, about, background, screen
+from .boards import board

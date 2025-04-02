@@ -1,12 +1,14 @@
 import pygame
 
 from core import setting, config, button, screens
-from core.screens.board import Board
+from board import Board
 from core.screens.screen import Screen
+from core.screens.boards.boardsolo import BoardOfSolo
 from core.sound.sound import Sound
 
 
 class MenuWin(Screen):
+    isSolo = False
     def __init__(self, screen):
         super().__init__(screen)
         self.font = pygame.font.Font(setting.FONT_PATH, 80)
@@ -42,15 +44,18 @@ class MenuWin(Screen):
             if self.sound_rect.collidepoint(event.pos):
                 self.toggle_sound()
             if self.btn_continue.btn["rect"].collidepoint(event.pos):
-                setting.LEVEL_OF_SCREEN = 2  # Quay lại màn chơi
-                Board.start_time = pygame.time.get_ticks()
-                Board.pause_time = 0
+                if MenuWin.isSolo:
+                    setting.LEVEL_OF_SCREEN = 2  # Quay lại màn chơi
+                    BoardOfSolo.start_time = pygame.time.get_ticks()
+                    BoardOfSolo.pause_time = 0
+                else:
+                    setting.LEVEL_OF_SCREEN = 7
                 Sound.play_music(config.CLICK)
-                screens.board.Board.back = True
+                screens.boards.board.Board.back = True
                 print(f"Tiếp tục chơi màn {setting.LEVEL}")
 
             elif self.btn_back.btn["rect"].collidepoint(event.pos):
                 setting.LEVEL_OF_SCREEN = 1  # Quay về menu chính
                 Sound.play_music(config.CLICK)
-                screens.board.Board.back = True
+                screens.boards.board.Board.back = True
                 print("Quay về menu chính")

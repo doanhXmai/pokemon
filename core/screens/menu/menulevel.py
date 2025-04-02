@@ -15,11 +15,11 @@ class MenuLevel(Screen):
         self.back_rect = self.back_icon.get_rect(topleft=(10, 10))
 
         self.buttons = [
-            button.btntext.btnTXT("Tập luyện", self.font, config.LIGHT_PINK, config.ORANGE,
+            button.btntext.btnTXT("Chơi đơn", self.font, config.LIGHT_PINK, config.ORANGE,
                                   pygame.Rect((config.SCREEN_WIDTH - 400) // 2, 200, 400, 60)),
             button.btntext.btnTXT("Chơi với máy", self.font, config.LIGHT_PINK, config.DODGER_BLUE,
                                   pygame.Rect((config.SCREEN_WIDTH - 400) // 2, 300, 400, 60)),
-            button.btntext.btnTXT("Chơi với người", self.font, config.LIGHT_PINK, config.LIME_GREEN,
+            button.btntext.btnTXT("Tập luyện", self.font, config.LIGHT_PINK, config.LIME_GREEN,
                                   pygame.Rect((config.SCREEN_WIDTH - 400) // 2, 400, 400, 60))
         ]
 
@@ -50,6 +50,8 @@ class MenuLevel(Screen):
             for btn in self.buttons:
                 if btn.btn["rect"].collidepoint(event.pos):
                     print(f"Bạn đã chọn: {btn.btn['text']}")
-                    if btn.btn_name == "Tập luyện":
+                    if btn.btn_name == "Chơi đơn":
                         setting.LEVEL_OF_SCREEN = 2
+                    elif btn.btn_name == "Tập luyện":
+                        setting.LEVEL_OF_SCREEN = 7
                     sound.sound.Sound.play_music(config.CLICK)

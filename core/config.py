@@ -1,4 +1,4 @@
-# Đây là file cấu hình của game
+"""Đây là file cấu hình của game"""
 
 # Số hàng và cột của broad
 NUM_COLS = 12

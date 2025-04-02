@@ -42,17 +42,17 @@ class MenuLose(Screen):
             if self.btn_continue.btn["rect"].collidepoint(event.pos):
                 setting.LEVEL = 1  # Chuyển về level 1
                 print(f"Bạn có muốn chơi lại")
-                screens.board.Board.back = True
+                screens.boards.board.Board.back = True
                 setting.TOTAL_SCORE = 0
                 setting.SCORE = 10 * setting.LEVEL
                 setting.LEVEL_OF_SCREEN = 2  # Quay lại màn chơi
                 setting.LOSE = False
-                screens.board.Board.pause_time = 0
-                screens.board.Board.start_time = pygame.time.get_ticks()
+                screens.boards.boardsolo.BoardOfSolo.pause_time = 0
+                screens.boards.boardsolo.BoardOfSolo.start_time = pygame.time.get_ticks()
                 sound.sound.Sound.play_music(config.CLICK)
 
             elif self.btn_back.btn["rect"].collidepoint(event.pos):
                 print("Quay về menu chính")
-                screens.board.Board.back = True
+                screens.boards.board.Board.back = True
                 setting.LEVEL_OF_SCREEN = 1  # Quay về menu chính
                 sound.sound.Sound.play_music(config.CLICK)
