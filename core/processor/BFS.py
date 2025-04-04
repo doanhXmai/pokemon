@@ -9,26 +9,26 @@ def find_pass(tiles, pos1, pos2):
     """
     R = len(tiles)
     C = len(tiles[0])
-    # Tạo grid, 0: ô trống, 1: có tile
+    # create a grid, 0: empty, 1: has tile
     grid = [[0 for _ in range(C)] for _ in range(R)]
     for r in range(R):
         for c in range(C):
             if tiles[r][c] is not None:
                 grid[r][c] = 1
 
-    # Lấy tọa độ của 2 ô cần nối
+    # Get the coordinates of the 2 cells to be joined
     r1, c1 = pos1
     r2, c2 = pos2
 
-    # Cho phép đi qua ô ban đầu và ô đích (mặc dù chúng có tile)
+    # Allows passing through the origin and destination cells (even though they have tiles)
     grid[r1][c1] = 0
     grid[r2][c2] = 0
 
-    # Khởi tạo trace để lưu lại đường đi
+    # Initialize trace to save path
     trace = [[None for _ in range(C)] for _ in range(R)]
     q = deque()
     q.append(pos2)
-    trace[r2][c2] = (-2, -2)  # Đánh dấu điểm gốc của trace
+    trace[r2][c2] = (-2, -2)  # Mark the origin of the trace
 
     directions = [(-1, 0), (0, 1), (1, 0), (0, -1)]
     while q:
@@ -38,8 +38,9 @@ def find_pass(tiles, pos1, pos2):
         for dx, dy in directions:
             nr = cur[0] + dx
             nc = cur[1] + dy
-            # Di chuyển theo 1 hướng liên tục cho đến khi gặp chướng ngại
+            # Toward one direction continuously until you encounter an obstacle.
             while 0 <= nr < R and 0 <= nc < C and grid[nr][nc] == 0:
+                # R > nr >= 0 == grid[nr][nc] and 0 <= nc < C
                 if trace[nr][nc] is None:
                     trace[nr][nc] = cur
                     q.append((nr, nc))

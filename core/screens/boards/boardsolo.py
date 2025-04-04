@@ -22,7 +22,7 @@ class BoardOfSolo(Board):
         # Timer
         BoardOfSolo.start_time = pygame.time.get_ticks()
         BoardOfSolo.pause_time = 0
-        self.time_limit = max(200 - (setting.LEVEL - 1) * 20, 20)
+        self.time_limit = max(10 - (setting.LEVEL - 1) * 20, 20)
         print(f"Update time: {self.time_limit}")
         self.remaining_time = 0
 

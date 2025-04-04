@@ -9,7 +9,6 @@
     LEVEL_OF_SCREEN = 7 Training
 '''
 import os.path
-from pickle import FALSE
 
 LEVEL_OF_SCREEN = 0
 

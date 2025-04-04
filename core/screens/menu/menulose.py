@@ -7,7 +7,7 @@ class MenuLose(Screen):
     def __init__(self, screen):
         super().__init__(screen)
         self.font = pygame.font.Font(setting.FONT_PATH, 40)
-        self.text = pygame.font.Font(None, 80).render("Bạn đã LOSE", True, config.BLACK)
+        self.text = pygame.font.Font(setting.FONT_PATH, 80).render("YOU LOSE", True, config.BLACK)
         self.text_total_score = self.font.render(f"Tổng điểm đã đặt: {setting.TOTAL_SCORE}", True, config.BLACK)
         self.background = pygame.Surface((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
 
@@ -17,13 +17,11 @@ class MenuLose(Screen):
         # căn giữa chữ "Bạn đã WIN"
         self.text_rect = self.text.get_rect(center=(center_x, center_y - 100))
 
-        # font chữ cho các nút
-        btn_font = pygame.font.Font(None, 40)
         # Nút "Tiếp tục"
-        self.btn_continue = button.btntext.btnTXT("Tiếp tục", btn_font, config.GREEN, config.WHITE,
+        self.btn_continue = button.btntext.btnTXT("Tiếp tục", self.font, config.GREEN, config.WHITE,
                                    pygame.Rect(center_x - 100, center_y, 200, 50))
         # Nút trở về
-        self.btn_back = button.btntext.btnTXT("Trở về", btn_font, config.RED, config.WHITE,
+        self.btn_back = button.btntext.btnTXT("Trở về", self.font, config.RED, config.WHITE,
                                pygame.Rect(center_x - 100, center_y + 80, 200, 50))
 
     def draw(self):
