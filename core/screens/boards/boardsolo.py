@@ -21,7 +21,7 @@ class BoardOfSolo(Board):
         # Timer
         BoardOfSolo.start_time = pygame.time.get_ticks()
         BoardOfSolo.pause_time = 0
-        self.time_limit = max(200 - (setting.LEVEL - 1) * 20, 20)
+        self.time_limit = max(200 - (Board.level - 1) * 20, 20)
         print(f"Update time: {self.time_limit}")
         self.remaining_time = 0
 
@@ -46,7 +46,7 @@ class BoardOfSolo(Board):
         self.screen.blit(hint_text, (self.board_center_x + 50 + 40, self.board_y - 30))
         self.screen.blit(shuffle_text, (self.board_center_x + 150 + 40, self.board_y -30))
         # Draw scope
-        score_text = pygame.font.Font(setting.FONT_PATH, 36).render(f"Điểm: {setting.TOTAL_SCORE}", True, (0, 0, 0))
+        score_text = pygame.font.Font(setting.FONT_PATH, 36).render(f"Điểm: {Board.total_score}", True, (0, 0, 0))
         text_rect = score_text.get_rect(
             center=(config.SCREEN_WIDTH // 2, ((config.NUM_ROWS + 2) * config.TILE_SIZE) + 50))
         self.screen.blit(score_text, text_rect)
@@ -54,7 +54,7 @@ class BoardOfSolo(Board):
         elapsed_time = (pygame.time.get_ticks() - BoardOfSolo.start_time) // 1000
         self.remaining_time = max(self.time_limit - elapsed_time, 0)  # đảm bảo không âm
         # Draw time
-        time_text = font.render(f"Time: {self.remaining_time}s - Level: {setting.LEVEL}", True, config.BLACK)
+        time_text = font.render(f"Time: {self.remaining_time}s - Level: {Board.level}", True, config.BLACK)
         self.screen.blit(time_text, (10, 10))
         self.you_lose()
         pygame.display.flip()

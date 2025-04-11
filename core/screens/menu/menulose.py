@@ -1,6 +1,7 @@
 import pygame
 
 from core import setting, config, button, screens, sound
+from core.screens.boards.board import Board
 from core.screens.screen import Screen
 
 class MenuLose(Screen):
@@ -8,7 +9,7 @@ class MenuLose(Screen):
         super().__init__(screen)
         self.font = pygame.font.Font(setting.FONT_PATH, 40)
         self.text = pygame.font.Font(setting.FONT_PATH, 80).render("YOU LOSE", True, config.BLACK)
-        self.text_total_score = self.font.render(f"Tổng điểm đã đặt: {setting.TOTAL_SCORE}", True, config.BLACK)
+        self.text_total_score = self.font.render(f"Tổng điểm đã đặt: {Board.total_score}", True, config.BLACK)
         self.background = pygame.Surface((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
 
         # Toạ độ trung màn hình
@@ -38,11 +39,11 @@ class MenuLose(Screen):
             if self.sound_rect.collidepoint(event.pos):
                 self.toggle_sound()
             if self.btn_continue.btn["rect"].collidepoint(event.pos):
-                setting.LEVEL = 1  # Chuyển về level 1
+                Board.level = 1  # Chuyển về level 1
                 print(f"Bạn có muốn chơi lại")
                 screens.boards.board.Board.back = True
-                setting.TOTAL_SCORE = 0
-                setting.SCORE = 10 * setting.LEVEL
+                Board.total_score = 0
+                Board.score = 10 * Board.level
                 setting.LEVEL_OF_SCREEN = 2  # Quay lại màn chơi
                 setting.LOSE = False
                 screens.boards.boardsolo.BoardOfSolo.pause_time = 0

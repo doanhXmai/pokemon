@@ -1,7 +1,9 @@
 import sys
 import pygame
 
+from bot.core.bot import Bot
 from core import setting, config, screens, sound
+from core.screens.boards.board import Board
 from core.screens.menu.menuwin import MenuWin
 
 
@@ -22,6 +24,7 @@ class Game:
         self.menu_pause = screens.menu.menupause.MenuPause(self.screen)
         self.menu_win = screens.menu.menuwin.MenuWin(self.screen)
         self.menu_lose = screens.menu.menulose.MenuLose(self.screen)
+        self.menu_game_over = screens.menu.menugameover.GameOver(self.screen)
 
         # screen main
         self.board = None
@@ -60,6 +63,8 @@ class Game:
                 self.menu_lose.handle_event(event)
             elif setting.LEVEL_OF_SCREEN == 7:
                 self.board.handle_event(event)
+            elif setting.LEVEL_OF_SCREEN == 8:
+                self.menu_game_over.handle_event(event)
 
     def draw(self):
         if setting.LEVEL_OF_SCREEN == 0:
@@ -80,8 +85,8 @@ class Game:
                 screens.boards.boardsolo.BoardOfSolo.hint = 7
             if setting.WIN:
                 sound.sound.Sound.play_music(config.WIN)
-                setting.LEVEL += 1                  # Level up
-                setting.SCORE = 10 * setting.LEVEL  # increase score
+                screens.boards.board.Board.level += 1                  # Level up
+                screens.boards.board.Board.score = 10 * screens.boards.board.Board.level  # increase score
                 setting.LEVEL_OF_SCREEN = 5
                 setting.WIN = False
                 MenuWin.isSolo = True
@@ -91,6 +96,10 @@ class Game:
                 screens.boards.board.Board.back = False
             if self.board is None: self.board = screens.boards.boardBot.BoardBattleBot(self.screen)
             self.board.draw()
+            if self.board.game_over:
+                setting.LEVEL_OF_SCREEN = 8
+                # Board.total_score = 0
+                # Bot.score = 0
         elif setting.LEVEL_OF_SCREEN == 4:
             self.menu_pause.draw()          # Draw the pause menu
         elif setting.LEVEL_OF_SCREEN == 5:
@@ -105,8 +114,10 @@ class Game:
             self.board.draw()
             if setting.WIN:
                 sound.sound.Sound.play_music(config.WIN)
-                setting.LEVEL += 1  # Level up
-                setting.SCORE = 10 * setting.LEVEL
+                screens.boards.board.Board.level += 1  # Level up
+                screens.boards.board.Board.score = 10 * screens.boards.board.Board.level
                 setting.LEVEL_OF_SCREEN = 5
                 setting.WIN = False
                 MenuWin.isSolo = False
+        elif setting.LEVEL_OF_SCREEN == 8:
+            self.menu_game_over.draw()

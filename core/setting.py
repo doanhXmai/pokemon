@@ -7,6 +7,7 @@
     LEVEL_OF_SCREEN = 5 WIN
     LEVEL_OF_SCREEN = 6 LOSE
     LEVEL_OF_SCREEN = 7 Training
+    LEVEL_OF_SCREEN = 8 Game Over
 '''
 import os.path
 
@@ -53,4 +54,4 @@ FONT_PATH = os.path.join("assets", "fonts", "timesnewroman.ttf")
 '''
     DELAY: 3s
 '''
-DELAY = 1000
+DELAY = 3000

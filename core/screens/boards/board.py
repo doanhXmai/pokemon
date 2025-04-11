@@ -6,7 +6,10 @@ from core.screens.screen import Screen
 
 class Board(Screen):
 
+    score = 10
     back = False
+    total_score = 0
+    level = 1
 
     def __init__(self, screen):
         super().__init__(screen)
@@ -75,8 +78,8 @@ class Board(Screen):
                 if btn.btn["rect"].collidepoint(event.pos):
                     print(f"Bạn đã chọn vào {btn.btn_name}")
                     sound.sound.Sound.play_music(config.CLICK)
-                    setting.TOTAL_SCORE = 0
-                    setting.LEVEL = 1
+                    Board.total_score = 0
+                    Board.level = 1
                     self.num_tiles_lost = 0
 
                     if btn.btn_name == "Back":
@@ -102,7 +105,7 @@ class Board(Screen):
                                 print("Nối thành công")
                                 self.remove_pokemon((self.first_tile[0], self.first_tile[1]), (second_tile[0], second_tile[1]))
                                 setting.WIN = self.is_board_empty()
-                                setting.TOTAL_SCORE += setting.SCORE
+                                Board.total_score += Board.score
                                 self.num_tiles_lost += 2
                                 self.check_any_valid_pair()
                                 sound.sound.Sound.play_music(config.MATCHED)
