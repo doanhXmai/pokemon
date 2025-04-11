@@ -35,6 +35,10 @@ class Board(Screen):
                     return False
         return True
 
+    def remove_pokemon(self, pop1, pop2):
+        self.tiles[pop1[0]][pop1[1]] = None
+        self.tiles[pop2[0]][pop2[1]] = None
+
     def check_any_valid_pair(self):
         """There are no more pairs of Pokémon"""
         if processor.hint.Hint.get_hint(self.tiles) is not None:
@@ -48,11 +52,6 @@ class Board(Screen):
             for col in range(1, config.NUM_COLS + 1):
                 if self.tiles[row][col] is not None:
                     self.tiles[row][col].draw(self.screen) # Draw each tile
-
-        # Draw scope
-        score_text = pygame.font.Font(setting.FONT_PATH, 36).render(f"Điểm: {setting.TOTAL_SCORE}", True, (0, 0, 0))
-        text_rect = score_text.get_rect(center=(config.SCREEN_WIDTH // 2, ((config.NUM_ROWS + 2) * config.TILE_SIZE) + 50))
-        self.screen.blit(score_text, text_rect)
 
         # Draw button
         self.draw_sound_button()
@@ -101,8 +100,7 @@ class Board(Screen):
 
                             if path is not None:
                                 print("Nối thành công")
-                                self.tiles[self.first_tile[0]][self.first_tile[1]] = None
-                                self.tiles[second_tile[0]][second_tile[1]] = None
+                                self.remove_pokemon((self.first_tile[0], self.first_tile[1]), (second_tile[0], second_tile[1]))
                                 setting.WIN = self.is_board_empty()
                                 setting.TOTAL_SCORE += setting.SCORE
                                 self.num_tiles_lost += 2

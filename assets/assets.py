@@ -15,3 +15,5 @@ sound_path = {config.CLICK:         f"assets/sounds/{config.CLICK}.wav",
 button_path = {"pause":     "assets/images/pause.png",
                "hint":      "assets/images/hint.png",
                "shuffle":   "assets/images/shuffle.png"}
+
+avatar_path = "assets/images/avt.png"

@@ -20,6 +20,8 @@ class ConnectProcessing:
         r1, c1 = pos1
         r2, c2 = pos2
 
+        if tiles[r1][c1] is None or tiles[r2][c2] is None: return None
+
         # Kiểm tra 2 ô cùng loại (so sánh đường dẫn hình ảnh)
         if tiles[r1][c1].image_path != tiles[r2][c2].image_path:
             return None

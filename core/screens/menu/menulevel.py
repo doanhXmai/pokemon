@@ -52,6 +52,8 @@ class MenuLevel(Screen):
                     print(f"Bạn đã chọn: {btn.btn['text']}")
                     if btn.btn_name == "Chơi đơn":
                         setting.LEVEL_OF_SCREEN = 2
+                    elif btn.btn_name == "Chơi với máy":
+                        setting.LEVEL_OF_SCREEN = 3
                     elif btn.btn_name == "Tập luyện":
                         setting.LEVEL_OF_SCREEN = 7
                     sound.sound.Sound.play_music(config.CLICK)
