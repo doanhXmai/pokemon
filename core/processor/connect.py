@@ -13,7 +13,7 @@ class ConnectProcessing:
          - Phải cùng hình ảnh.
          - Và có đường nối hợp lệ (đường nối có số điểm nằm trong khoảng từ 2 đến 4).
         """
-        # Kiểm tra 2 ô cùng vị trí
+        # Two points in the same location
         if pos1 == pos2:
             return None
 
@@ -22,13 +22,13 @@ class ConnectProcessing:
 
         if tiles[r1][c1] is None or tiles[r2][c2] is None: return None
 
-        # Kiểm tra 2 ô cùng loại (so sánh đường dẫn hình ảnh)
+        # Two points must be to the same type (so sánh đường dẫn hình ảnh)
         if tiles[r1][c1].image_path != tiles[r2][c2].image_path:
             return None
 
-        # Tìm đường nối giữa 2 ô
+        # Find path
         path = processor.BFS.find_pass(tiles, pos1, pos2)
-        # Số ô trong đường nối (bao gồm ô xuất phát và đích) phải từ 2 đến 4
+        # The number of cells in the path (including the starting and destination cells) must be from 2 to 4
         if 2 <= len(path) <= 4:
             return path
         return None

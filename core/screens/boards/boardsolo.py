@@ -22,7 +22,6 @@ class BoardOfSolo(Board):
         BoardOfSolo.start_time = pygame.time.get_ticks()
         BoardOfSolo.pause_time = 0
         self.time_limit = max(200 - (Board.level - 1) * 20, 20)
-        print(f"Update time: {self.time_limit}")
         self.remaining_time = 0
 
     def check_any_valid_pair(self):

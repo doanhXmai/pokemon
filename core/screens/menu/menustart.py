@@ -31,7 +31,7 @@ class MenuStart(Screen):
         # Draw sound button
         self.draw_sound_button()
 
-        # Draw 2 button
+        # Draw 2 buttons
         for btn in self.buttons:
             btn.draw(self.screen)
 

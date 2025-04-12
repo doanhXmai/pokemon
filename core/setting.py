@@ -26,18 +26,6 @@ TURN_ON_VOLUME = True
 TURN_ON_PAUSE = False
 
 '''
-    LEVEL is the level of the game
-'''
-LEVEL = 1
-
-'''
-    TOTAL_SCORE
-    SCORE = 20 is default
-'''
-TOTAL_SCORE = 0
-SCORE = 10 * LEVEL
-
-'''
     WIN:  True-you win
     LOSE: True-you lose
 '''

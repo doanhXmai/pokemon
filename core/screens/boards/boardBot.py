@@ -16,7 +16,6 @@ class BoardBattleBot(Board):
         self.player = AvatarScore(assets.assets.avatar_path, (self.board_center_x - 290, self.board_y - 40), Board.total_score, self.font)
         self.bot = AvatarScore(assets.assets.avatar_path, (self.board_center_x + 100, self.board_y - 40), Bot.score, self.font, "bot")
 
-
     def draw(self):
         super().draw()
         self.player.draw(self.screen)
@@ -34,6 +33,8 @@ class BoardBattleBot(Board):
             pygame.time.delay(100)
             self.remove_pokemon(action_of_bot[0], action_of_bot[1])
             Bot.score += Board.score
+            self.num_tiles_lost += 2
+            self.check_any_valid_pair()
             BoardBattleBot.game_over = self.is_board_empty()
 
         if event.type == pygame.MOUSEBUTTONDOWN:  # Turn on or turn off volume

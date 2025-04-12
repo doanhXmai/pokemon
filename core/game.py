@@ -1,9 +1,7 @@
 import sys
 import pygame
 
-from bot.core.bot import Bot
 from core import setting, config, screens, sound
-from core.screens.boards.board import Board
 from core.screens.menu.menuwin import MenuWin
 
 
@@ -46,7 +44,7 @@ class Game:
                 pygame.quit()
                 sys.exit()
 
-            # Chỉ xử lý sự kiện của menu hiện tại
+            # Chỉ xử lý sự kiện của screen hiện tại
             if setting.LEVEL_OF_SCREEN == 0:
                 self.menu_start.handle_event(event)
             elif setting.LEVEL_OF_SCREEN == 1:
@@ -98,8 +96,6 @@ class Game:
             self.board.draw()
             if self.board.game_over:
                 setting.LEVEL_OF_SCREEN = 8
-                # Board.total_score = 0
-                # Bot.score = 0
         elif setting.LEVEL_OF_SCREEN == 4:
             self.menu_pause.draw()          # Draw the pause menu
         elif setting.LEVEL_OF_SCREEN == 5:

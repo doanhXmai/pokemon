@@ -12,7 +12,6 @@ class btnPause(UI):
         screen.blit(self.image, self.rect)
 
     def scope_rect(self, position):
-        # self.rect.center = position
         self.rect = self.image.get_rect()
         self.rect.center = position
 

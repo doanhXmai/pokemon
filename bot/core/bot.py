@@ -9,7 +9,6 @@ class Bot:
     score = 0
     def __init__(self):
         self.last_action = pygame.time.get_ticks()
-        # self.delay = setting.DELAY
 
     def update(self, tiles):
         current_time = pygame.time.get_ticks()

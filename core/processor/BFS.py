@@ -47,7 +47,7 @@ def find_pass(tiles, pos1, pos2):
                 nr += dx
                 nc += dy
 
-    # Truy vết lại đường đi nếu có
+    # If having a path, it would trace the path
     return trace_path(trace, pos1)
 
 def trace_path(trace, pos):
@@ -55,8 +55,8 @@ def trace_path(trace, pos):
     if trace[pos[0]][pos[1]] is not None:
         cur = pos
         while cur != (-2, -2):
-            # Lưu ý: các tọa độ ở đây vẫn theo hệ thống của self.tiles (đã có viền)
+            # Note: coordinates here are according to the coordinates of self.tiles (had a border)
             path.append(cur)
             cur = trace[cur[0]][cur[1]]
-        path.reverse()  # Nếu cần đường đi từ pos2 đến pos1, có thể đảo ngược lại
+        path.reverse()  # Need path from pos2 to pos1, can be reverse
     return path
