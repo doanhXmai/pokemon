@@ -11,31 +11,41 @@ from core.sound.sound import Sound
 class MenuWin(Screen):
     def __init__(self, screen):
         super().__init__(screen)
-        self.font = pygame.font.Font(setting.FONT_PATH, 80)
-        self.text = self.font.render("Bạn đã WIN", True, config.BLACK)
+        self.font = pygame.font.Font(setting.FONT_PATH2, 80)
+        self.text = self.font.render("YOU WIN", True, config.RED)
         self.background = pygame.Surface((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
 
         # Toạ độ trung màn hình
         center_x = config.SCREEN_WIDTH // 2
         center_y = config.SCREEN_HEIGHT // 2
         # căn giữa chữ "Bạn đã WIN"
-        self.text_rect = self.text.get_rect(center = (center_x, center_y - 100))
+        self.text_rect = self.text.get_rect(center = (center_x, center_y - 120))
 
         # font chữ cho các nút
         btn_font = pygame.font.Font(None, 40)
         # Nút "Tiếp tục"
         self.btn_continue = btnTXT("Tiếp tục", btn_font, config.GREEN, config.WHITE,
-                                   pygame.Rect(center_x - 100, center_y, 200, 50))
+                                   pygame.Rect(center_x - 75, center_y - 10, 150, 60))
         # Nút trở về
         self.btn_back = btnTXT("Trở về", btn_font, config.RED, config.WHITE,
-                               pygame.Rect(center_x - 100, center_y + 80, 200, 50))
+                               pygame.Rect(center_x - 75, center_y + 100, 150, 60))
 
     def draw(self):
-        self.screen.fill(config.ORANGE)
-        self.screen.blit(self.text, self.text_rect)
-        self.btn_continue.draw(self.screen)
-        self.btn_back.draw(self.screen)
+        #draw bg
+        screen_bg = pygame.image.load("assets/images/background1.jpg")
+        screen_bg = pygame.transform.scale(screen_bg, (config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
+        self.screen.blit(screen_bg, (0,0))
 
+        self.screen.blit(self.text, self.text_rect)
+
+        #draw button
+        btn_continue = pygame.image.load("assets/images/btn_tryagain.png")
+        btn_continue = pygame.transform.scale(btn_continue, (150, 60))
+        btn_exit = pygame.image.load("assets/images/btn_back3.png")
+        btn_exit = pygame.transform.scale(btn_exit, (150, 60))
+        self.screen.blit(btn_continue, (config.SCREEN_WIDTH // 2 - 75, config.SCREEN_HEIGHT // 2 - 10))
+        self.screen.blit(btn_exit, (config.SCREEN_WIDTH // 2 - 75, config.SCREEN_HEIGHT // 2 + 100))
+        
         self.draw_sound_button()
         pygame.display.flip()
 

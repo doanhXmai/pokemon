@@ -30,7 +30,7 @@ class Board(Screen):
         self.tiles = [[None for _ in range(config.NUM_COLS + 2)] for _ in range(config.NUM_ROWS + 2)]
         self.first_tile = None
         # Bộ đếm thời gian
-        self.time_limit = max(200 - (setting.LEVEL - 1) * 20, 10)
+        self.time_limit = max(100 - (setting.LEVEL - 1) * 20, 10)
         print(f"time được cập nhật: {self.time_limit}")
         self.remaining_time = 0
 
@@ -39,7 +39,7 @@ class Board(Screen):
         board_y = config.BOARD_Y - 40
 
         self.pause = btnPause("assets/images/pause.png", (board_center_x, board_y))
-        self.hint = btnHint("assets/images/hint.png", (board_center_x + 50, board_y))
+        self.hint = btnHint("assets/images/idea.png", (board_center_x + 50, board_y))
         self.shuffle = btnShuffle("assets/images/shuffle.png", (board_center_x + 100, board_y))
 
         self.restart_back = btnRestartAndBack()
@@ -131,7 +131,11 @@ class Board(Screen):
             pygame.draw.line(self.screen, color, self.get_pixel_position(*path[i]), self.get_pixel_position(*path[i+1]), width)
 
     def draw(self):
-        self.screen.fill(config.ORANGE)
+        #draw background
+        screen_bg = pygame.image.load("assets/images/background5.jpg")
+        screen_bg = pygame.transform.scale(screen_bg, (config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
+        self.screen.blit(screen_bg, (0,0))
+
         for row in range(1, config.NUM_ROWS + 1):
             for col in range(1, config.NUM_COLS + 1):
                 if self.tiles[row][col] is not None:
@@ -142,23 +146,37 @@ class Board(Screen):
         self.remaining_time = max(self.time_limit - elapsed_time, 0)  # đảm bảo không âm
 
         # hiển thị time
-        font = pygame.font.Font(setting.FONT_PATH, 50)
-        time_text = font.render(f"Time: {self.remaining_time}s - Level: {setting.LEVEL}", True, config.BLACK)
+        font = pygame.font.Font(setting.FONT_PATH, 30)
+        time_text = font.render(f"Time: {self.remaining_time}s - Level: {setting.LEVEL}", True, config.WHITE)
         self.screen.blit(time_text, (10, 10))
         self.you_lose()
 
         # Vẽ điểm
-        score_text = pygame.font.Font(setting.FONT_PATH, 36).render(f"Điểm: {setting.TOTAL_SCORE}", True, (0, 0, 0))
+        score_text = pygame.font.Font(setting.FONT_PATH, 30).render(f"Điểm: {setting.TOTAL_SCORE}", True, config.WHITE)
         text_rect = score_text.get_rect(center=(
             config.SCREEN_WIDTH // 2, ((config.NUM_ROWS + 2) * config.TILE_SIZE) + 50))
         self.screen.blit(score_text, text_rect)
 
         # Vẽ các nút chức năng khác
         self.draw_sound_button()
-        self.pause.draw(self.screen)
-        self.hint.draw(self.screen)
-        self.shuffle.draw(self.screen)
-        self.restart_back.draw(self.screen)
+
+        btnReplay = pygame.image.load("assets/images/btn_replay.png")
+        btnReplay = pygame.transform.scale(btnReplay, (120, 50))
+        btnBack = pygame.image.load("assets/images/btn_back3.png")
+        btnBack = pygame.transform.scale(btnBack, (120, 50))
+        btnPause = pygame.image.load("assets/images/pause.png")
+        btnPause = pygame.transform.scale(btnPause, (45, 35))
+        btnHint = pygame.image.load("assets/images/idea.png")
+        btnHint = pygame.transform.scale(btnHint, (45, 35))
+        btnShuffle = pygame.image.load("assets/images/shuffle.png")
+        btnShuffle = pygame.transform.scale(btnShuffle, (45, 35))
+
+        self.screen.blit(btnReplay, (25, config.SCREEN_HEIGHT - 80))
+        self.screen.blit(btnBack, (config.SCREEN_WIDTH - 145, config.SCREEN_HEIGHT - 80))
+        self.screen.blit(btnShuffle, (config.SCREEN_WIDTH // 2 - 80, 10))
+        self.screen.blit(btnPause, (config.SCREEN_WIDTH // 2 - 12.5, 10))
+        self.screen.blit(btnHint, (config.SCREEN_WIDTH // 2 + 55, 10))
+        
         pygame.display.flip()
 
     def handle_event(self, event):

@@ -10,7 +10,7 @@ class Screen(ABC):
         self.screen = screen
 
         # Nút âm thanh
-        self.sound_icon = pygame.image.load("assets/images/volume.png")
+        self.sound_icon = pygame.image.load("assets/images/btn_mute.png")
         self.sound_icon = pygame.transform.scale(self.sound_icon, size=(40, 40))
         self.sound_rect = self.sound_icon.get_rect(topright = (config.SCREEN_WIDTH - 10, 10))
 
@@ -27,7 +27,7 @@ class Screen(ABC):
         self.draw_sound_button()
 
     def draw_sound_button(self):
-        sound_path = "assets/images/volume.png" if setting.TURN_ON_VOLUME else "assets/images/volume-off.png"
+        sound_path = "assets/images/btn_unmute.png" if setting.TURN_ON_VOLUME else "assets/images/btn_mute.png"
         self.sound_icon = pygame.image.load(sound_path)
         self.sound_icon = pygame.transform.scale(self.sound_icon, (40, 40))
         self.screen.blit(self.sound_icon, self.sound_rect)

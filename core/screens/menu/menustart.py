@@ -14,23 +14,35 @@ class MenuStart(Screen):
         self.font = pygame.font.Font(setting.FONT_PATH, 48)
 
         self.buttons = [
-            btnTXT("Bắt đầu", self.font, config.YELLOW, config.BLACK, pygame.Rect(270, 400, 180, 60)),
-            btnTXT("Thoát", self.font, config.YELLOW, config.BLACK, pygame.Rect(580, 400, 180, 60))
+            btnTXT("Bắt đầu", self.font, config.GRAY, config.BLACK, pygame.Rect(config.SCREEN_WIDTH // 2 - 90, 330, 180, 60)),
+            btnTXT("Thoát", self.font, config.GRAY, config.BLACK, pygame.Rect(config.SCREEN_WIDTH // 2 - 90, 450, 180, 60))
         ]
 
     def draw(self):
-        self.screen.fill(config.ORANGE)
+        
+        # Draw background
+        screen_bg = pygame.image.load("assets/images/background2.jpg")
+        screen_bg = pygame.transform.scale(screen_bg, (config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
+        self.screen.blit(screen_bg, (0,0))
 
         # Draw logo
+        logo = pygame.image.load("assets/images/logo2.png")
+        logo = pygame.transform.scale(logo, (500,200))
         title = self.font.render("POKÉMON CỔ ĐIỂN", True, config.BLACK)
-        self.screen.blit(title, (config.SCREEN_WIDTH // 2 - title.get_width() // 2, 100))
+        self.screen.blit(logo, (config.SCREEN_WIDTH // 2 - 250, 70))
 
         # Draw sound button
         self.draw_sound_button()
 
         # Draw button
-        for btn in self.buttons:
-            btn.draw(self.screen)
+        btnStart = pygame.image.load("assets/images/button_play.png")
+        btnStart = pygame.transform.scale(btnStart, (180, 60))
+        btnExit = pygame.image.load("assets/images/button_exit.png")
+        btnExit = pygame.transform.scale(btnExit, (180, 60))
+
+        self.screen.blit(btnStart, (config.SCREEN_WIDTH // 2 - 90, 330))
+        self.screen.blit(btnExit, (config.SCREEN_WIDTH // 2 - 90, 450))
+
 
         pygame.display.flip()
 

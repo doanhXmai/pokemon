@@ -14,10 +14,14 @@ class MenuPause(Screen):
         self.background = pygame.Surface((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
         self.background.set_alpha(180)  # Nền bán trong suốt
         self.background.fill(config.BLACK)  # Màu đen
-        self.btn_continue = btnTXT("Tiếp tục", self.font, config.YELLOW, config.BLACK, pygame.Rect(380, 400, 190, 60))
+        self.btn_continue = btnTXT("Tiếp tục", self.font, config.WHITE, config.GRAY, pygame.Rect(config.SCREEN_WIDTH//2 - 95, config.SCREEN_HEIGHT//2 - 30, 190, 60))
 
     def draw(self):
-        self.screen.fill(config.ORANGE)
+
+        #draw background
+        screen_bg = pygame.image.load("assets/images/background5.jpg")
+        screen_bg = pygame.transform.scale(screen_bg, (config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
+        self.screen.blit(screen_bg, (0,0))
 
         self.draw_sound_button()
 
@@ -30,7 +34,7 @@ class MenuPause(Screen):
             if self.sound_rect.collidepoint(event.pos):
                 self.toggle_sound()
             if self.btn_continue.btn["rect"].collidepoint(event.pos):
-                print(f"Bạn đã bấm nút {self.btn_continue.btn["text"]}")
+                print(f"Bạn đã bấm nút {self.btn_continue.btn['text']}")
                 setting.PAUSE = False
                 Board.start_time += pygame.time.get_ticks() - Board.pause_time
                 setting.LEVEL_OF_SCREEN = 2

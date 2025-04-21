@@ -49,3 +49,4 @@ LOSE = False
 PAUSE = False
 
 FONT_PATH = os.path.join("assets", "fonts", "timesnewroman.ttf")
+FONT_PATH2 = os.path.join("assets", "fonts", "DeterminationSans.otf")

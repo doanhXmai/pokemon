@@ -24,6 +24,7 @@ RED = (255, 50, 50)
 GREEN = (125, 255, 0)
 LIGHT_BLUE = (173, 216, 230)
 BLUE = (0, 0, 255)
+GRAY = (216, 214, 214)
 
 # Âm thanh
 CLICK = "click"
