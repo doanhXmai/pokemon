@@ -27,7 +27,7 @@ class Board(Screen):
         self.board_center_x = config.SCREEN_WIDTH // 2
         self.board_y = config.BOARD_Y - 40
 
-        self.pause = button.btnpause.btnPause(assets.button_path["pause"], (self.board_center_x, self.board_y))
+        self.pause = button.btnpause.btnPause(assets.button_path["pause"], (config.SCREEN_WIDTH // 2 - 12.5, 25))
         self.restart_back = button.btnrestartandback.btnRestartAndBack()
 
     def is_board_empty(self):
@@ -49,7 +49,7 @@ class Board(Screen):
         processor.generate.Gennergate.gennerage_board(assets.pokemon_images, self.tiles, self.total_tiles, self.num_tiles_lost)
 
     def draw(self):
-        self.screen.blit(screens.background.Background.load_image(assets.background), (0, 0))
+        self.screen.blit(screens.background.Background.load_image(assets.background[3]), (0, 0))
 
         for row in range(1, config.NUM_ROWS + 1):
             for col in range(1, config.NUM_COLS + 1):
@@ -59,7 +59,13 @@ class Board(Screen):
         # Draw button
         self.draw_sound_button()
         self.pause.draw(self.screen)
-        self.restart_back.draw(self.screen)
+        # self.restart_back.draw(self.screen)
+        btnReplay = pygame.image.load(assets.button_path["btn_replay"])
+        btnReplay = pygame.transform.scale(btnReplay, (120, 50))
+        btnBack = pygame.image.load(assets.button_path["btn_back2"])
+        btnBack = pygame.transform.scale(btnBack, (120, 50))
+        self.screen.blit(btnReplay, (25, config.SCREEN_HEIGHT - 80))
+        self.screen.blit(btnBack, (config.SCREEN_WIDTH - 145, config.SCREEN_HEIGHT - 80))
 
     def handle_event(self, event):
         if event.type == pygame.MOUSEBUTTONDOWN: # Turn on or turn off volume

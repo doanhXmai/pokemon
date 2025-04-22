@@ -1,5 +1,6 @@
 import pygame
 
+import assets.assets
 from core import setting, config, button
 from board import Board
 from core.screens.screen import Screen
@@ -17,7 +18,10 @@ class MenuPause(Screen):
         self.btn_continue = button.btntext.btnTXT("Tiếp tục", self.font, config.YELLOW, config.BLACK, pygame.Rect(380, 400, 190, 60))
 
     def draw(self):
-        self.screen.fill(config.ORANGE)
+        # draw background
+        screen_bg = pygame.image.load(assets.assets.background[3])
+        screen_bg = pygame.transform.scale(screen_bg, (config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
+        self.screen.blit(screen_bg, (0, 0))
 
         self.draw_sound_button()
 

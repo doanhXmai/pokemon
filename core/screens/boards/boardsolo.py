@@ -1,5 +1,3 @@
-from random import shuffle
-
 import pygame.time
 
 from assets import assets
@@ -16,12 +14,12 @@ class BoardOfSolo(Board):
         super().__init__(screen)
         # create the shuffle button and the hint button
         self.shuffle = button.btnshuffle.btnShuffle(assets.button_path["shuffle"],
-                                                    (self.board_center_x + 150, self.board_y))
-        self.hint = button.btnhint.btnHint(assets.button_path["hint"], (self.board_center_x + 50, self.board_y))
+                                                    (config.SCREEN_WIDTH // 2 - 80, 25))
+        self.hint = button.btnhint.btnHint(assets.button_path["hint"], (config.SCREEN_WIDTH // 2 + 55, 25))
         # Timer
         BoardOfSolo.start_time = pygame.time.get_ticks()
         BoardOfSolo.pause_time = 0
-        self.time_limit = max(200 - (Board.level - 1) * 20, 20)
+        self.time_limit = max(200 - (Board.level - 1) * 20, 50)
         self.remaining_time = 0
 
     def check_any_valid_pair(self):
@@ -36,16 +34,16 @@ class BoardOfSolo(Board):
 
     def draw(self):
         super().draw()
-        font = pygame.font.Font(setting.FONT_PATH, 50)
+        font = pygame.font.Font(setting.FONT_PATH, 30)
         # draw the shuffle button and the hint button
         self.hint.draw(self.screen)
         self.shuffle.draw(self.screen)
-        hint_text = font.render(f"{BoardOfSolo.hint}", True, config.BLACK)
-        shuffle_text = font.render(f"{BoardOfSolo.shuffle}", True, config.BLACK)
-        self.screen.blit(hint_text, (self.board_center_x + 50 + 40, self.board_y - 30))
-        self.screen.blit(shuffle_text, (self.board_center_x + 150 + 40, self.board_y -30))
+        hint_text = font.render(f"{BoardOfSolo.hint}", True, config.WHITE)
+        shuffle_text = font.render(f"{BoardOfSolo.shuffle}", True, config.WHITE)
+        self.screen.blit(hint_text, (config.SCREEN_WIDTH // 2 + 12.5, 10))
+        self.screen.blit(shuffle_text, (config.SCREEN_WIDTH // 2 - 55, 10))
         # Draw scope
-        score_text = pygame.font.Font(setting.FONT_PATH, 36).render(f"Điểm: {Board.total_score}", True, (0, 0, 0))
+        score_text = pygame.font.Font(setting.FONT_PATH, 30).render(f"Điểm: {Board.total_score}", True, config.WHITE)
         text_rect = score_text.get_rect(
             center=(config.SCREEN_WIDTH // 2, ((config.NUM_ROWS + 2) * config.TILE_SIZE) + 50))
         self.screen.blit(score_text, text_rect)
@@ -53,7 +51,7 @@ class BoardOfSolo(Board):
         elapsed_time = (pygame.time.get_ticks() - BoardOfSolo.start_time) // 1000
         self.remaining_time = max(self.time_limit - elapsed_time, 0)  # đảm bảo không âm
         # Draw time
-        time_text = font.render(f"Time: {self.remaining_time}s - Level: {Board.level}", True, config.BLACK)
+        time_text = font.render(f"Time: {self.remaining_time}s - Level: {Board.level}", True, config.WHITE)
         self.screen.blit(time_text, (10, 10))
         self.you_lose()
         pygame.display.flip()

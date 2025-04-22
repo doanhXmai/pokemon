@@ -1,6 +1,7 @@
 import pygame
 import sys
 
+import assets.assets
 from core import setting, config, button
 from core.screens.screen import Screen
 from core.sound.sound import Sound
@@ -17,24 +18,35 @@ class MenuStart(Screen):
 
         # Create 2 buttons
         self.buttons = [
-            button.btntext.btnTXT("Bắt đầu", self.font, config.YELLOW, config.BLACK, pygame.Rect(270, 400, 180, 60)),
-            button.btntext.btnTXT("Thoát", self.font, config.YELLOW, config.BLACK, pygame.Rect(580, 400, 180, 60))
+            button.btntext.btnTXT("Bắt đầu", self.font, config.YELLOW, config.BLACK, pygame.Rect(config.SCREEN_WIDTH // 2 - 90, 330, 180, 60)),
+            button.btntext.btnTXT("Thoát", self.font, config.YELLOW, config.BLACK, pygame.Rect(config.SCREEN_WIDTH // 2 - 90, 450, 180, 60))
         ]
 
     def draw(self):
-        self.screen.fill(config.ORANGE)
+        # self.screen.fill(config.ORANGE)
+        screen_bg = pygame.image.load(assets.assets.background[1])
+        screen_bg = pygame.transform.scale(screen_bg, (config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
+        self.screen.blit(screen_bg, (0, 0))
 
         # Draw logo
+        logo = pygame.image.load("assets/images/logo2.png")
+        logo = pygame.transform.scale(logo, (500, 200))
         title = self.font.render("POKÉMON CỔ ĐIỂN", True, config.BLACK)
-        self.screen.blit(title, (config.SCREEN_WIDTH // 2 - title.get_width() // 2, 100))
+        self.screen.blit(logo, (config.SCREEN_WIDTH // 2 - 250, 70))
 
         # Draw sound button
         self.draw_sound_button()
 
         # Draw 2 buttons
-        for btn in self.buttons:
-            btn.draw(self.screen)
-
+        # for btn in self.buttons:
+        #     btn.draw(self.screen)
+        # Draw button
+        btn_start = pygame.image.load(assets.assets.button_path["button_play"])
+        btn_start = pygame.transform.scale(btn_start, (180, 60))
+        btn_exit = pygame.image.load(assets.assets.button_path["button_exit"])
+        btn_exit = pygame.transform.scale(btn_exit, (180, 60))
+        self.screen.blit(btn_start, (config.SCREEN_WIDTH // 2 - 90, 330))
+        self.screen.blit(btn_exit, (config.SCREEN_WIDTH // 2 - 90, 450))
         pygame.display.flip()
 
     def handle_event(self, event):

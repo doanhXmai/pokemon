@@ -5,11 +5,11 @@ from core.ui import UI
 class btnHint(UI):
     def __init__(self, image_path, position):
         super().__init__(image_path, position)
-        self.scale((40, 40))
+        self.scale((45, 35))
         self.scope_rect(position)
 
     def scale(self, size):
-        self.image = pygame.transform.scale(self.image, size=(40, 40))
+        self.image = pygame.transform.scale(self.image, size=size)
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)

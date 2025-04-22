@@ -10,13 +10,14 @@ class BoardOfTraining(Board):
         super().__init__(screen)
         # create the shuffle button and the hint button
         self.shuffle = button.btnshuffle.btnShuffle(assets.button_path["shuffle"],
-                                                    (self.board_center_x + 100, self.board_y))
-        self.hint = button.btnhint.btnHint(assets.button_path["hint"], (self.board_center_x + 50, self.board_y))
+                                                    (config.SCREEN_WIDTH // 2 - 80, 25))
+        self.hint = button.btnhint.btnHint(assets.button_path["hint"],
+                                                    (config.SCREEN_WIDTH // 2 + 55, 25))
 
     def draw(self):
         super().draw()
-        font = pygame.font.Font(setting.FONT_PATH, 50)
-        level_text = font.render(f"Level: {Board.level}", True, config.BLACK)
+        font = pygame.font.Font(setting.FONT_PATH, 30)
+        level_text = font.render(f"Level: {Board.level}", True, config.WHITE)
         self.screen.blit(level_text, (10, 10))
 
         # draw the shuffle button and the hint button
@@ -24,7 +25,7 @@ class BoardOfTraining(Board):
         self.shuffle.draw(self.screen)
 
         # Draw scope
-        score_text = pygame.font.Font(setting.FONT_PATH, 36).render(f"Điểm: {Board.total_score}", True, (0, 0, 0))
+        score_text = pygame.font.Font(setting.FONT_PATH, 30).render(f"Điểm: {Board.total_score}", True, config.WHITE)
         text_rect = score_text.get_rect(
             center=(config.SCREEN_WIDTH // 2, ((config.NUM_ROWS + 2) * config.TILE_SIZE) + 50))
         self.screen.blit(score_text, text_rect)

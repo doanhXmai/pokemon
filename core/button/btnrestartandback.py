@@ -8,9 +8,9 @@ class btnRestartAndBack:
         self.font = pygame.font.Font(setting.FONT_PATH, 50)
         self.buttons = [
             button.btntext.btnTXT("Restart", self.font, config.RED, config.WHITE,
-                   pygame.Rect(10, config.SCREEN_HEIGHT - 90, 150, 60)),
+                   pygame.Rect(25, config.SCREEN_HEIGHT - 80, 120, 50)),
             button.btntext.btnTXT("Back", self.font, config.RED, config.WHITE,
-                   pygame.Rect(config.SCREEN_WIDTH - 160, config.SCREEN_HEIGHT - 90, 150, 60))
+                   pygame.Rect(config.SCREEN_WIDTH - 145, config.SCREEN_HEIGHT - 80, 120, 50))
         ]
 
     def draw(self, screen):

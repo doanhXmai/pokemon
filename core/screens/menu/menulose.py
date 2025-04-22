@@ -1,5 +1,6 @@
 import pygame
 
+import assets.assets
 from core import setting, config, button, screens, sound
 from core.screens.boards.board import Board
 from core.screens.screen import Screen
@@ -8,28 +9,39 @@ class MenuLose(Screen):
     def __init__(self, screen):
         super().__init__(screen)
         self.font = pygame.font.Font(setting.FONT_PATH, 40)
-        self.text = pygame.font.Font(setting.FONT_PATH, 80).render("YOU LOSE", True, config.BLACK)
-        self.text_total_score = self.font.render(f"Tổng điểm đã đặt: {Board.total_score}", True, config.BLACK)
+        self.text = pygame.font.Font(setting.FONT_PATH, 80).render("YOU LOSE", True, config.RED)
+        self.text_total_score = self.font.render(f"Tổng điểm đã đạt: {Board.total_score}", True, config.WHITE)
         self.background = pygame.Surface((config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
 
         # Toạ độ trung màn hình
         center_x = config.SCREEN_WIDTH // 2
         center_y = config.SCREEN_HEIGHT // 2
-        # căn giữa chữ "Bạn đã WIN"
-        self.text_rect = self.text.get_rect(center=(center_x, center_y - 100))
+        self.text_rect = self.text.get_rect(center=(center_x, center_y - 150))
+        self.text_total_score_rect = self.text_total_score.get_rect(center=(center_x, center_y - 100))
 
         # Nút "Tiếp tục"
         self.btn_continue = button.btntext.btnTXT("Tiếp tục", self.font, config.GREEN, config.WHITE,
-                                   pygame.Rect(center_x - 100, center_y, 200, 50))
+                                   pygame.Rect(center_x - 75, center_y - 10, 150, 60))
         # Nút trở về
         self.btn_back = button.btntext.btnTXT("Trở về", self.font, config.RED, config.WHITE,
-                               pygame.Rect(center_x - 100, center_y + 80, 200, 50))
+                               pygame.Rect(center_x - 75, center_y + 100, 150, 60))
 
     def draw(self):
-        self.screen.fill(config.ORANGE)
+        # self.screen.fill(config.ORANGE)
+        screen_bg = pygame.image.load(assets.assets.background[0])
+        screen_bg = pygame.transform.scale(screen_bg, (config.SCREEN_WIDTH, config.SCREEN_HEIGHT))
+        self.screen.blit(screen_bg, (0, 0))
+        self.text_total_score = self.font.render(f"Tổng điểm đã đặt: {Board.total_score}", True, config.WHITE)
         self.screen.blit(self.text, self.text_rect)
-        self.btn_continue.draw(self.screen)
-        self.btn_back.draw(self.screen)
+        self.screen.blit(self.text_total_score, self.text_total_score_rect)
+
+        # draw button
+        btn_continue = pygame.image.load(assets.assets.button_path["btn_tryagain"])
+        btn_continue = pygame.transform.scale(btn_continue, (150, 60))
+        btn_exit = pygame.image.load(assets.assets.button_path["btn_back2"])
+        btn_exit = pygame.transform.scale(btn_exit, (150, 60))
+        self.screen.blit(btn_continue, (config.SCREEN_WIDTH // 2 - 75, config.SCREEN_HEIGHT // 2 - 10))
+        self.screen.blit(btn_exit, (config.SCREEN_WIDTH // 2 - 75, config.SCREEN_HEIGHT // 2 + 100))
 
         self.draw_sound_button()
         pygame.display.flip()
