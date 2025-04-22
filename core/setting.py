@@ -42,4 +42,4 @@ FONT_PATH = os.path.join("assets", "fonts", "timesnewroman.ttf")
 '''
     DELAY: 3s
 '''
-DELAY = 100
+DELAY = 3000
