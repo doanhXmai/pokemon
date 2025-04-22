@@ -1,6 +1,6 @@
 # Pokémon
 
-Một trò chơi Pokémon đơn giản được phát triển trên Python với thư viện Pygame.
+Một trò chơi Pokémon đơn giản được phát triển trên nền tảng Python với thư viện Pygame.
 
 ## Giới thiệu
 
