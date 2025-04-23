@@ -1,4 +1,4 @@
-# Pokémon
+# <span style="color:#FF6B6B">P</span><span style="color:#FFA94D">o</span><span style="color:#FFD43B">k</span><span style="color:#69DB7C">é</span><span style="color:#4DABF7">m</span><span style="color:#9775FA">o</span><span style="color:#F783AC">n</span>
 
 Một trò chơi Pokémon đơn giản được phát triển trên nền tảng Python với thư viện Pygame.
 
