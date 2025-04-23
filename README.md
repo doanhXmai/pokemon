@@ -8,9 +8,9 @@ Một trò chơi Pokémon đơn giản được phát triển trên nền tảng
 
 ## Các thành viên
 
-- Mai Xuân Doanh ─ 221230767
-- Trần Văn Dũng  ─ 221230773
-- Nguyễn Văn Hải ─ 221230824
+- Mai Xuân Doanh - 221230767
+- Trần Văn Dũng  - 221230773
+- Nguyễn Văn Hải - 221230824
 
 ## Công nghệ sử dụng
 
